@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toolbar;
 
 import androidx.annotation.RequiresApi;
@@ -24,19 +25,25 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 public class ProfilActivity extends AppCompatActivity {
     private static final String TAG = "ProfilActivity";
     private static final int ActivityNumber = 4;
+
     private Context mContext = ProfilActivity.this;
+
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate: starting.");
+        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+        mProgressBar.setVisibility(View.GONE);
         setupBottomNavigationView();
+        setupToolbar();
     }
 
 
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
     private void setupToolbar(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolBar);
         setSupportActionBar(toolbar);

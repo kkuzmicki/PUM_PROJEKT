@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG,"Zaczynamy!");
         setUpBottomNavigationViev();
     }
-    private void setUpBottomNavigationViev()
-    {
+
+    private void setUpBottomNavigationViev() {
         Log.d(TAG,"konfiguracjaNawigiDol");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
@@ -32,9 +32,5 @@ public class MainActivity extends AppCompatActivity {
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
 
-        // TU JEST MÓJ KOMENTARZ !!!
-        // komentarz 1
-        // kom
     }
 }
-// komentarz
