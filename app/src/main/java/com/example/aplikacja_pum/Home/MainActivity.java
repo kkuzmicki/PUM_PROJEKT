@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         menuItem.setChecked(true);
 
         // TU JEST MÓJ KOMENTARZ !!!
+        // komentarz 1
         // kom
     }
 }
