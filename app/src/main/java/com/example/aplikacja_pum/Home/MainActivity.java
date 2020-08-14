@@ -31,5 +31,7 @@ public class MainActivity extends AppCompatActivity {
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
+
+        // TU JEST MÓJ KOMENTARZ !!!
     }
 }
