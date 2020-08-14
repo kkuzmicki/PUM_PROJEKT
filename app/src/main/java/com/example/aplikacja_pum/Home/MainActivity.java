@@ -35,3 +35,4 @@ public class MainActivity extends AppCompatActivity {
         // TU JEST MÓJ KOMENTARZ !!!
     }
 }
+// komentarz
