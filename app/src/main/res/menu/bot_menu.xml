@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home_icon"
+        android:icon="@drawable/ic_house"
+        android:title="" >
+    </item>
+
+    <item
+        android:id="@+id/ranking_icon"
+        android:icon="@drawable/ic_ranking"
+        android:title="" >
+    </item>
+
+    <item
+        android:id="@+id/add_icon"
+        android:icon="@drawable/ic_add"
+        android:title="" >
+    </item>
+
+    <item
+        android:id="@+id/create_icon"
+        android:icon="@drawable/ic_create"
+        android:title="" >
+    </item>
+
+    <item
+        android:id="@+id/profil_icon"
+        android:icon="@drawable/ic_profil"
+        android:title="" >
+    </item>
+
+</menu>

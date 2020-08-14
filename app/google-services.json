@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "475334137274",
+    "firebase_url": "https://pum-projekt-123d4.firebaseio.com",
+    "project_id": "pum-projekt-123d4",
+    "storage_bucket": "pum-projekt-123d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475334137274:android:c947d61b9840bdfcb5b983",
+        "android_client_info": {
+          "package_name": "com.example.aplikacja_pum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475334137274-utno0c92f1fg0stmb3mk6rnpsi7ulvec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.aplikacja_pum",
+            "certificate_hash": "0e2470bd25f581e7a71e292231f2269609868dcc"
+          }
+        },
+        {
+          "client_id": "475334137274-3284e9nt846lfucif7i1ibkmc7q4pho1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkK5L9vLE5l0s3NaU478wiD5q3WdWVjIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475334137274-3284e9nt846lfucif7i1ibkmc7q4pho1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
