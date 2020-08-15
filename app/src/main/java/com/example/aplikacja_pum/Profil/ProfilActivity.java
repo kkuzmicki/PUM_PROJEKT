@@ -38,16 +38,14 @@ public class ProfilActivity extends AppCompatActivity {
         mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
         mProgressBar.setVisibility(View.GONE);
         setupBottomNavigationView();
-        setupToolbar();
+        setupIntent();
     }
 
 
 
 
-    private void setupToolbar(){
-        Toolbar toolbar = (Toolbar) findViewById(R.id.profileToolBar);
-        setSupportActionBar(toolbar);
-        
+    private void setupIntent(){
+
         ImageView profileMenu = (ImageView) findViewById(R.id.settingsMenu);
         profileMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,9 +57,7 @@ public class ProfilActivity extends AppCompatActivity {
         });
     }
 
-    private void setSupportActionBar(Toolbar toolbar) {
 
-    }
 
 
     //nawigacja dolna
