@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG,"Zaczynamy!");
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
             {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
+                checkCurrentUser(user); // czy uzytkownik zalogowany
                 if(user != null)
                 {
                     Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         if(user == null)
         {
             Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
         }
     }
 
