@@ -9,11 +9,14 @@ import android.view.MenuItem;
 
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG,"Zaczynamy!");
         setUpBottomNavigationViev();
+    }
+
+    private void setupFirebaseAuth()
+    {
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void setUpBottomNavigationViev() {
