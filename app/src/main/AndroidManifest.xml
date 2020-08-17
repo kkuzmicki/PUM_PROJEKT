@@ -21,6 +21,8 @@
         <activity android:name=".Create.CreateActivity" />
         <activity android:name=".Profil.ProfilActivity" />
         <activity android:name=".Profil.AccountSettingsActivity" />
+        <activity android:name=".Login.LoginActivity"/>
+        <activity android:name=".Login.RegisterActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
