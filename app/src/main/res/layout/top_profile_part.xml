@@ -43,7 +43,7 @@
             android:textColor="@color/grey"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/textFollowings"
-            app:layout_constraintHorizontal_bias="0.565"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toEndOf="@+id/textPosts"
             app:layout_constraintTop_toBottomOf="@+id/textViewFollowers" />
 
