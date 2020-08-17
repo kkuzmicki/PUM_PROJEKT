@@ -12,6 +12,8 @@ import androidx.core.app.NavUtils;
 import com.example.aplikacja_pum.AddDir.AddActivity;
 import com.example.aplikacja_pum.Create.CreateActivity;
 import com.example.aplikacja_pum.Home.MainActivity;
+import com.example.aplikacja_pum.Login.LoginActivity;
+import com.example.aplikacja_pum.Login.RegisterActivity;
 import com.example.aplikacja_pum.Profil.ProfilActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Ranking.RankingActivity;
@@ -46,17 +48,17 @@ public class BottomNavigationViewHelper {
                         break;
 
                     case R.id.ranking_icon:
-                        Intent ranking = new Intent(con, RankingActivity.class);
+                        Intent ranking = new Intent(con, LoginActivity.class);
                         con.startActivity(ranking);
                         break;
 
                     case R.id.add_icon:
-                        Intent add = new Intent(con, AddActivity.class);
+                        Intent add = new Intent(con, MainActivity.class);
                         con.startActivity(add);
                         break;
 
                     case R.id.create_icon:
-                        Intent create = new Intent(con, CreateActivity.class);
+                        Intent create = new Intent(con, RegisterActivity.class);
                         con.startActivity(create);
                         break;
 
