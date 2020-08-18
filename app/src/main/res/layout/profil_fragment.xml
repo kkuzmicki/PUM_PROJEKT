@@ -98,11 +98,22 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/website"
                     android:textColor="@color/blue"
-                    android:text="Profile"
+                    android:text="ProfileNationality"
                     android:textSize="16sp"
                     android:layout_marginTop="5dp"/>
 
                 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_below="@id/linLayout2"
+                android:id="@+id/linLayout3"
+                android:padding="10dp"
+                android:background="@color/darkish">
+
             </LinearLayout>
 
             <RelativeLayout
@@ -111,18 +122,25 @@
                 android:id="@+id/relLayout4"
                 android:layout_below="@id/linLayout2"
                 android:background="@color/darkish">
-                
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/gridView"
-                    android:numColumns="4"
-                    android:verticalSpacing="1dp"
-                    android:horizontalSpacing="1dp"
-                    android:stretchMode="columnWidth"
-                    android:gravity="center">
 
-                </GridView>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:padding="20dp">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:id="@+id/profilePhotoGridView"
+                        android:layout_marginTop="20dp"
+                        app:civ_border_color="@color/black"
+                        app:civ_border_width="2dp"
+                        android:layout_centerHorizontal="true"/>
+
+
+                </RelativeLayout>
+
                 
             </RelativeLayout>
 
