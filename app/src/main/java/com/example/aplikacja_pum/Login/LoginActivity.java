@@ -83,14 +83,9 @@ public class LoginActivity extends AppCompatActivity
                         }
                     });
                 }
+                Log.d(TAG, "KLIK!");
             }
         });
-        if(mAuth.getCurrentUser() != null)
-        {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 
     // ustawienie autoryzacji Firebase
@@ -111,6 +106,15 @@ public class LoginActivity extends AppCompatActivity
                 else
                 {
                     Log.d(TAG, "onAuthStateChanged: signed out");
+                }
+
+                if(mAuth.getCurrentUser() != null)
+                {
+                    Log.d(TAG, "ZMIANA EKRANU");
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         };
