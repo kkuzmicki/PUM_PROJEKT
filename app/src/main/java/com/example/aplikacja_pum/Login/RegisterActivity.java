@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,9 @@ public class RegisterActivity extends AppCompatActivity
     private EditText nameET;
     private EditText emailET;
     private EditText passwordET;
+    private Button registerB;
+    private ProgressBar registerPB;
+    private TextView loadingTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,8 +38,14 @@ public class RegisterActivity extends AppCompatActivity
         nameET = findViewById(R.id.nameET);
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
+        registerB = findViewById(R.id.registerB);
+        registerPB = findViewById(R.id.registerPB);
+        //Button registerB = findViewById(R.id.registerB);
+        loadingTV = findViewById(R.id.loadingTV);
 
-        Button registerB = findViewById(R.id.registerB);
+        loadingTV.setVisibility(View.GONE);
+        registerPB.setVisibility(View.GONE);
+
         registerB.setOnClickListener(new View.OnClickListener()
         {
             @Override

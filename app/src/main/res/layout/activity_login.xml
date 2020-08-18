@@ -61,14 +61,15 @@
         android:layout_centerInParent="true"/>
 
     <TextView
+        android:id="@+id/loadingTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Loading..."
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:layout_alignBottom="@+id/loginPB"
-        android:layout_alignRight="@+id/loginPB"
         android:layout_alignLeft="@+id/loginPB"
-        android:id="@+id/loadingTV"/>
+        android:layout_alignRight="@+id/loginPB"
+        android:layout_alignBottom="@+id/loginPB"
+        android:text="Loading..."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
     
 </RelativeLayout>

@@ -70,6 +70,24 @@
             android:textSize="16dp"
             android:id="@+id/link_signup"
             android:textColor="@color/blue"/>
-
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/registerPB"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:id="@+id/loadingTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/registerPB"
+        android:layout_alignRight="@+id/registerPB"
+        android:layout_alignBottom="@+id/registerPB"
+        android:text="Loading..."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp" />
+
 </RelativeLayout>
