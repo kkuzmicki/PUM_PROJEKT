@@ -41,7 +41,7 @@ dependencies {
     //noinspection GradleCompatible
     implementation "com.android.support:design:28.0.0"
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
 
 apply plugin: 'com.google.gms.google-services'
