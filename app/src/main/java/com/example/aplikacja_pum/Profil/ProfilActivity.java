@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
+import com.example.aplikacja_pum.Utils.UniversalImageLoader;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 
@@ -29,19 +30,33 @@ public class ProfilActivity extends AppCompatActivity {
     private Context mContext = ProfilActivity.this;
 
     private ProgressBar mProgressBar;
+    private ImageView profilePhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate: starting.");
-        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
-        mProgressBar.setVisibility(View.GONE);
+
         setupBottomNavigationView();
         setupIntent();
+        setupActivityWidgets();
+        setProfileImage();
     }
 
 
+
+    private void setProfileImage(){
+        Log.d(TAG, "setProfileImage: setting profile photo.");
+        String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
+        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
+    }
+
+    private void setupActivityWidgets(){
+        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+        mProgressBar.setVisibility(View.GONE);
+        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
+    }
 
 
     private void setupIntent(){

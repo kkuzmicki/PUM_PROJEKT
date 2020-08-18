@@ -1,5 +1,6 @@
 package com.example.aplikacja_pum.Profil;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,15 +28,18 @@ public class EditProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_editprofile, container, false);
         mProfilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
 
-        initImageLoader();
         setProfileImage();
 
-        return view;
-    }
+        ImageView backArrow = (ImageView) view.findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: navigating back to ProfileActivity");
+                getActivity().finish();
+            }
+        });
 
-    private void initImageLoader(){
-        UniversalImageLoader universalImageLoader = new UniversalImageLoader(getActivity());
-        ImageLoader.getInstance().init(universalImageLoader.getConfig());
+        return view;
     }
 
     private void setProfileImage(){

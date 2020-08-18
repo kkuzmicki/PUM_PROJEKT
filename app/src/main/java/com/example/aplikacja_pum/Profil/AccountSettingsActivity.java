@@ -4,6 +4,8 @@ import android.content.Context;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,14 +18,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
+import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
 public class AccountSettingsActivity extends AppCompatActivity {
 
     private static final String TAG = "AccountSettingsActivity";
+    private static final int ActivityNumber = 4;
 
     private Context mContext;
 
@@ -41,7 +47,7 @@ public class AccountSettingsActivity extends AppCompatActivity {
         mRelativeLayout = (RelativeLayout) findViewById(R.id.relLayout1);
 
         setupSettingsList();
-
+        setUpBottomNavigationViev();
         setupFragments();
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
@@ -85,5 +91,15 @@ public class AccountSettingsActivity extends AppCompatActivity {
                 setmViewPager(position);
             }
         });
+    }
+
+    private void setUpBottomNavigationViev() {
+        Log.d(TAG,"konfiguracjaNawigiDol");
+        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
+        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
+        Menu menu = bottomNavigationViewEx.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
     }
 }
