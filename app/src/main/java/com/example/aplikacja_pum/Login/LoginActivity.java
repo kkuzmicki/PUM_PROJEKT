@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity
     private ProgressBar loginPB;
     private EditText emailET;
     private EditText passwordET;
-    private TextView pleaseWaitTV;
+    private TextView loadingTV;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -46,9 +46,12 @@ public class LoginActivity extends AppCompatActivity
 
     private void init()
     {
-        //loginPB = findViewById(R.id.)
+        loginPB = findViewById(R.id.loginPB);
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
+        loadingTV = findViewById(R.id.loadingTV);
+        loginPB.setVisibility(View.GONE);
+        loadingTV.setVisibility(View.GONE);
 
         Button loginB = findViewById(R.id.loginB);
         loginB.setOnClickListener(new View.OnClickListener() {
@@ -58,14 +61,14 @@ public class LoginActivity extends AppCompatActivity
                 String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
 
-                if(email.isEmpty() && password.isEmpty())
+                if(email.isEmpty() || password.isEmpty())
                 {
                     Toast.makeText(LoginActivity.this, "You must fill out all the fields!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    //loginPB.setVisibility(View.VISIBLE);
-                    //pleaseWaitTV.setVisibility(View.VISIBLE);
+                    loginPB.setVisibility(View.VISIBLE);
+                    loadingTV.setVisibility(View.VISIBLE);
 
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>()
                     {
@@ -80,6 +83,8 @@ public class LoginActivity extends AppCompatActivity
                             {
                                 Toast.makeText(LoginActivity.this, "Logging successed!", Toast.LENGTH_SHORT).show();
                             }
+                            loginPB.setVisibility(View.GONE);
+                            loadingTV.setVisibility(View.GONE);
                         }
                     });
                 }
