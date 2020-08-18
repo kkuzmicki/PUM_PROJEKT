@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity
     private EditText emailET;
     private EditText passwordET;
     private TextView loadingTV;
+    private TextView registerTV;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -50,10 +51,20 @@ public class LoginActivity extends AppCompatActivity
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
         loadingTV = findViewById(R.id.loadingTV);
+        registerTV = findViewById(R.id.registerTV);
         loginPB.setVisibility(View.GONE);
         loadingTV.setVisibility(View.GONE);
 
         Button loginB = findViewById(R.id.loginB);
+
+        registerTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         loginB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
