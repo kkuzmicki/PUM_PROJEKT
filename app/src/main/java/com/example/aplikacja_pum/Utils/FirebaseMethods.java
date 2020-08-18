@@ -25,7 +25,7 @@ public class FirebaseMethods
     public FirebaseMethods(Context context)
     {
         mAuth = FirebaseAuth.getInstance();
-        this.context = context;
+        this.context = context;//
 
         if(mAuth.getCurrentUser() != null)
         {
