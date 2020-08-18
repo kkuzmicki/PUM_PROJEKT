@@ -22,7 +22,7 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login); // DLA TESTÓW!
+        setContentView(R.layout.activity_main); // DLA TESTÓW!
         Log.d(TAG, "onCreate: starting.");
 
         //setupBottomNavigationView();
