@@ -67,10 +67,10 @@ public class BottomNavigationViewHelper {
                         con.startActivity(profil);
                         break;
 
-                    case R.id.back_profil_icon:
+                    /*case R.id.back_profil_icon:
                         Intent home1 = new Intent(con, MainActivity.class);
                         con.startActivity(home1);
-                        break;
+                        break;*/
                 }
                 return false;
             }
