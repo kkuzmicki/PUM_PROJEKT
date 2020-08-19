@@ -12,10 +12,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplikacja_pum.R;
+import com.example.aplikacja_pum.Utils.FirebaseMethods;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class RegisterActivity extends AppCompatActivity
 {
-    private static final String TAG = "LoginActivity";
+    private static final String TAG = "RegisterActivity";
 
     private EditText nameET;
     private EditText emailET;
@@ -23,6 +25,10 @@ public class RegisterActivity extends AppCompatActivity
     private Button registerB;
     private ProgressBar registerPB;
     private TextView loadingTV;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseMethods firebaseMethods;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +52,8 @@ public class RegisterActivity extends AppCompatActivity
         loadingTV.setVisibility(View.GONE);
         registerPB.setVisibility(View.GONE);
 
+        firebaseMethods = new FirebaseMethods(RegisterActivity.this);
+
         registerB.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -58,6 +66,13 @@ public class RegisterActivity extends AppCompatActivity
                 if(name.isEmpty() || email.isEmpty() || password.isEmpty())
                 {
                     Toast.makeText(RegisterActivity.this, "All fields must be filled out!", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    registerPB.setVisibility(View.VISIBLE);
+                    loadingTV.setVisibility(View.VISIBLE);
+
+                    firebaseMethods.registerNewEmail(email, password, name);
                 }
             }
         });
