@@ -46,7 +46,6 @@ public class FirebaseMethods
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             userID = mAuth.getCurrentUser().getUid();
-
                         }
                         else
                         {
