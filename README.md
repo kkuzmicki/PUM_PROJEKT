@@ -3,6 +3,3 @@
 przykładowy użytkownik:
 jan@op.pl
 qwerty
-
-////
-bug:
