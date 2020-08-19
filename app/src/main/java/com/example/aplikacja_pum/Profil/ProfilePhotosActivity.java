@@ -19,7 +19,8 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
-public class ProfilePhotosActivity extends AppCompatActivity {
+public class ProfilePhotosActivity extends AppCompatActivity
+{
 
     private static final String TAG = "ProfilePhotosActivity";
     private static final int ActivityNumber = 4;
@@ -27,7 +28,8 @@ public class ProfilePhotosActivity extends AppCompatActivity {
     private static final int NUM_GRID_COLUMNS = 2;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photogridview);
         mContext = ProfilePhotosActivity.this;
@@ -38,9 +40,11 @@ public class ProfilePhotosActivity extends AppCompatActivity {
 
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
+        backArrow.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
                 finish();
             }
@@ -48,7 +52,8 @@ public class ProfilePhotosActivity extends AppCompatActivity {
     }
 
 
-    private void tempGridSetup(){
+    private void tempGridSetup()
+    {
         ArrayList<String> imgURLs = new ArrayList<>();
         imgURLs.add("https://wallpaperaccess.com/full/1851786.jpg");
         imgURLs.add("https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjI0MX0&w=1000&q=80");
@@ -62,7 +67,8 @@ public class ProfilePhotosActivity extends AppCompatActivity {
         setupImageGrid(imgURLs);
     }
 
-    private void setupImageGrid(ArrayList<String> imgURLs){
+    private void setupImageGrid(ArrayList<String> imgURLs)
+    {
         GridView gridView = (GridView) findViewById(R.id.gridView);
 
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
@@ -73,7 +79,8 @@ public class ProfilePhotosActivity extends AppCompatActivity {
         gridView.setAdapter(adapter);
     }
 
-    private void setUpBottomNavigationViev() {
+    private void setUpBottomNavigationViev()
+    {
         Log.d(TAG,"konfiguracjaNawigiDol");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);

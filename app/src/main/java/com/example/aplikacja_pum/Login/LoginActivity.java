@@ -57,15 +57,18 @@ public class LoginActivity extends AppCompatActivity
 
         Button loginB = findViewById(R.id.loginB);
 
-        registerTV.setOnClickListener(new View.OnClickListener() {
+        registerTV.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
 
-        loginB.setOnClickListener(new View.OnClickListener() {
+        loginB.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v)
             {

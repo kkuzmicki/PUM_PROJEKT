@@ -20,12 +20,14 @@ import com.example.aplikacja_pum.Ranking.RankingActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
-public class BottomNavigationViewHelper {
+public class BottomNavigationViewHelper
+{
 
     private static final String TAG = "BottomNavigationViewHelper";
 
     @SuppressLint("LongLogTag")
-    public static void setupBottomNavigationView(BottomNavigationViewEx bottomNavigationViewEx){
+    public static void setupBottomNavigationView(BottomNavigationViewEx bottomNavigationViewEx)
+    {
         Log.d(TAG,"konfiguracjaNawigiDol: Klasa");
         bottomNavigationViewEx.enableAnimation(false);
         bottomNavigationViewEx.enableShiftingMode(false);
@@ -35,10 +37,13 @@ public class BottomNavigationViewHelper {
     }
 
     //otwiera nowe okna activity zaleznie od wybranej opcji dolnego menu
-    public static void enableNavigation(final Context con, BottomNavigationViewEx bottomNavigationViewEx) {
-        bottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+    public static void enableNavigation(final Context con, BottomNavigationViewEx bottomNavigationViewEx)
+    {
+        bottomNavigationViewEx.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(@NonNull MenuItem item)
+            {
 
                 switch (item.getItemId())
                 {

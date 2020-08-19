@@ -1,6 +1,8 @@
 # PUM_PROJEKT
 
-użytkownik #1:
+przykładowy użytkownik:
 jan@op.pl
 qwerty
 
+////
+bug:

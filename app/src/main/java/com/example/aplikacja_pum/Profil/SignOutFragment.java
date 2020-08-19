@@ -14,7 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.example.aplikacja_pum.R;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class SignOutFragment extends Fragment {
+public class SignOutFragment extends Fragment
+{
 
     private static final String TAG = "SignOutFragment";
 
@@ -25,7 +26,8 @@ public class SignOutFragment extends Fragment {
     private TextView textViewSingOut;
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_signout, container, false);
 
         return view;

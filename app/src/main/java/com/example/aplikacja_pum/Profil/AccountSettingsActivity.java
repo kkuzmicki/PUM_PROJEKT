@@ -26,7 +26,8 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 import java.util.ArrayList;
 
-public class AccountSettingsActivity extends AppCompatActivity {
+public class AccountSettingsActivity extends AppCompatActivity
+{
 
     private static final String TAG = "AccountSettingsActivity";
     private static final int ActivityNumber = 4;
@@ -38,7 +39,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
     private RelativeLayout mRelativeLayout;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_accountsettings);
         mContext = AccountSettingsActivity.this;
@@ -51,7 +53,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
         setupFragments();
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener() {
+        backArrow.setOnClickListener(new View.OnClickListener()
+        {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
@@ -60,20 +63,23 @@ public class AccountSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void setupFragments(){
+    private void setupFragments()
+    {
         pagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         pagerAdapter.addFragment(new EditProfileFragment(), getString(R.string.edit_profile));
         pagerAdapter.addFragment(new SignOutFragment(), getString(R.string.sign_out));
     }
 
-    private void setViewPager(int fragmentNumber){
+    private void setViewPager(int fragmentNumber)
+    {
         mRelativeLayout.setVisibility(View.GONE);
         Log.d(TAG, "setViewPager: navigating to fragment number #: " + fragmentNumber);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(fragmentNumber);
     }
 
-    private void setupSettingsList(){
+    private void setupSettingsList()
+    {
         Log.d(TAG, "setupSettingsList: initializing 'Account Settings' list.");
         ListView listView = (ListView) findViewById(R.id.lvAccountSettings);
 
@@ -84,7 +90,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: navigating to fragment number #: " + position);
@@ -93,7 +100,8 @@ public class AccountSettingsActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpBottomNavigationViev() {
+    private void setUpBottomNavigationViev()
+    {
         Log.d(TAG,"konfiguracjaNawigiDol");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
