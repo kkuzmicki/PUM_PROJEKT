@@ -27,7 +27,7 @@ public class CreateActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: starting.");
 
-        //setupBottomNavigationView();
+        setupBottomNavigationView();
     }
 
     private void setupBottomNavigationView()
