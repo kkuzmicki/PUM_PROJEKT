@@ -12,7 +12,8 @@ import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
-public class AddActivity extends AppCompatActivity {
+public class AddActivity extends AppCompatActivity
+{
 
     private static final String TAG = "AddActivity";
     private static final int ActivityNumber = 2;
@@ -20,7 +21,8 @@ public class AddActivity extends AppCompatActivity {
     private Context mContext = AddActivity.this;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main); // DLA TESTÓW!
         Log.d(TAG, "onCreate: starting.");
@@ -28,7 +30,8 @@ public class AddActivity extends AppCompatActivity {
         //setupBottomNavigationView();
     }
 
-    private void setupBottomNavigationView() {
+    private void setupBottomNavigationView()
+    {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);

@@ -18,7 +18,8 @@ import com.example.aplikacja_pum.Utils.UniversalImageLoader;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 
-public class ProfilActivity extends AppCompatActivity {
+public class ProfilActivity extends AppCompatActivity
+{
     private static final String TAG = "ProfilActivity";
     private static final int ActivityNumber = 4;
 
@@ -28,7 +29,8 @@ public class ProfilActivity extends AppCompatActivity {
     private ImageView profilePhoto;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         Log.d(TAG, "onCreate: starting.");
@@ -41,25 +43,30 @@ public class ProfilActivity extends AppCompatActivity {
 
 
 
-    private void setProfileImage(){
+    private void setProfileImage()
+    {
         Log.d(TAG, "setProfileImage: setting profile photo.");
         String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
         UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
     }
 
-    private void setupActivityWidgets(){
+    private void setupActivityWidgets()
+    {
         mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
         mProgressBar.setVisibility(View.GONE);
         profilePhoto = (ImageView) findViewById(R.id.profile_photo);
     }
 
 
-    private void setupIntent(){
+    private void setupIntent()
+    {
 
         ImageView profileMenu = (ImageView) findViewById(R.id.settingsMenu);
-        profileMenu.setOnClickListener(new View.OnClickListener() {
+        profileMenu.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Log.d(TAG, "onClick: navigating to account settings.");
                 Intent intent = new Intent(mContext, AccountSettingsActivity.class);
                 startActivity(intent);
@@ -67,9 +74,11 @@ public class ProfilActivity extends AppCompatActivity {
         });
 
         ImageView profileImages = (ImageView) findViewById(R.id.profilePhotoGridView);
-        profileImages.setOnClickListener(new View.OnClickListener() {
+        profileImages.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Log.d(TAG, "onClick: navigating to profile images.");
                 Intent intent = new Intent(mContext, ProfilePhotosActivity.class);
                 startActivity(intent);
@@ -81,7 +90,8 @@ public class ProfilActivity extends AppCompatActivity {
 
 
     //nawigacja dolna
-    private void setupBottomNavigationView() {
+    private void setupBottomNavigationView()
+    {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);

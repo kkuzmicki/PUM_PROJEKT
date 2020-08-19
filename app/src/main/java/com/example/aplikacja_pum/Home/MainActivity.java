@@ -1,13 +1,13 @@
 package com.example.aplikacja_pum.Home;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplikacja_pum.Login.LoginActivity;
 import com.example.aplikacja_pum.R;
@@ -18,7 +18,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+{
 
     private static final String TAG = "MainActivity";
 
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
-    private void initImageLoader(){
+    private void initImageLoader()
+    {
         UniversalImageLoader universalImageLoader = new UniversalImageLoader(MainActivity.this);
         ImageLoader.getInstance().init(universalImageLoader.getConfig());
     }
@@ -93,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setUpBottomNavigationViev() {
+    private void setUpBottomNavigationViev()
+    {
         Log.d(TAG,"konfiguracjaNawigiDol");
         BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
