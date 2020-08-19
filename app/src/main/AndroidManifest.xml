@@ -23,6 +23,7 @@
         <activity android:name=".Profil.AccountSettingsActivity" />
         <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".Login.RegisterActivity"/>
+        <activity android:name=".Profil.ProfilePhotosActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
