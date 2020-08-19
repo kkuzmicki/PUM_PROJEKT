@@ -2,19 +2,14 @@ package com.example.aplikacja_pum.Profil;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toolbar;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplikacja_pum.R;
@@ -67,6 +62,16 @@ public class ProfilActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.d(TAG, "onClick: navigating to account settings.");
                 Intent intent = new Intent(mContext, AccountSettingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        ImageView profileImages = (ImageView) findViewById(R.id.profilePhotoGridView);
+        profileImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: navigating to profile images.");
+                Intent intent = new Intent(mContext, ProfilePhotosActivity.class);
                 startActivity(intent);
             }
         });

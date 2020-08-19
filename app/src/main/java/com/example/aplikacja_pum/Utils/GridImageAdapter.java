@@ -2,6 +2,7 @@ package com.example.aplikacja_pum.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,10 +28,10 @@ public class GridImageAdapter extends ArrayAdapter<String> {
     private String mAppend;
     private ArrayList<String> imgURLs;
 
-    public GridImageAdapter(Context context, LayoutInflater mInflater, int layoutResource, String mAppend, ArrayList<String> imgURLs) {
+    public GridImageAdapter(Context context, int layoutResource, String mAppend, ArrayList<String> imgURLs) {
         super(context, layoutResource, imgURLs);
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.mContext = mContext;
-        this.mInflater = mInflater;
         this.layoutResource = layoutResource;
         this.mAppend = mAppend;
         this.imgURLs = imgURLs;

@@ -32,7 +32,7 @@
                 android:id="@+id/linLayout"
                 android:weightSum="100"
                 android:baselineAligned="false"
-                android:background="@color/darkish">
+                android:background="@color/white">
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -73,13 +73,13 @@
                 android:layout_below="@id/linLayout"
                 android:id="@+id/linLayout2"
                 android:padding="10dp"
-                android:background="@color/darkish">
+                android:background="@color/white">
                 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/display_name"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:text="Profile"
                     android:textSize="16sp"/>
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:text="Describe yourself"
                     android:textSize="16sp"
                     android:layout_marginTop="5dp"/>
@@ -129,15 +129,13 @@
                     android:background="@color/white"
                     android:padding="20dp">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:layout_width="120dp"
                         android:layout_height="120dp"
                         android:id="@+id/profilePhotoGridView"
                         android:layout_marginTop="20dp"
-                        app:civ_border_color="@color/black"
-                        app:civ_border_width="2dp"
-                        android:layout_centerHorizontal="true"/>
-
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/ic_clickhere"/>
 
                 </RelativeLayout>
 
