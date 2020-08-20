@@ -7,12 +7,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.aplikacja_pum.Models.User;
+import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class FirebaseMethods
 {
@@ -20,6 +23,9 @@ public class FirebaseMethods
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
     private String userID;
 
     private Context context;
@@ -27,7 +33,11 @@ public class FirebaseMethods
     public FirebaseMethods(Context context)
     {
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+
         this.context = context;
+
 
         if(mAuth.getCurrentUser() != null)
         {
@@ -80,5 +90,18 @@ public class FirebaseMethods
         return false;
     }
 
+    public void addNewUser(String email, String name)
+    {
+        User user = new User(userID, email, name);
 
+        databaseReference.child("users")
+            .child(userID)
+            .setValue(user);
+
+        UserAccountSettings settings = new UserAccountSettings("", "", 0, 0, name, 0);
+
+        databaseReference.child("user_account_settings")
+                .child(userID)
+                .setValue(settings);
+    }
 }
