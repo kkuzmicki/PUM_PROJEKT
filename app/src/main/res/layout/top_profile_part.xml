@@ -1,75 +1,98 @@
-<merge xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30dp"
-        android:maxHeight="100dp">
+        android:layout_height="wrap_content"
+        android:padding="10dp">
 
-
-        <TextView
-            android:id="@+id/textPosts"
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="POSTS"
-            android:textColor="@color/grey"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewPosts" />
+            android:layout_height="30dp"
+            android:id="@+id/relLayout1"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/textViewFollowers"
+            <TextView
+                android:id="@+id/textViewPosts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="200"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:id="@+id/textPosts"
+                android:layout_toRightOf="@+id/textViewPosts"
+                android:layout_centerVertical="true"
+                android:text="POSTS"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="100"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toStartOf="@+id/textViewFollowings"
-            app:layout_constraintStart_toEndOf="@+id/textViewPosts"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="30dp"
+            android:id="@+id/relLayout2"
+            android:layout_below="@id/relLayout1"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/textFollowers"
+            <TextView
+                android:id="@+id/textViewFollowers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300"
+                android:textColor="@android:color/black"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:id="@+id/textFollowers"
+                android:layout_toRightOf="@+id/textViewFollowers"
+                android:layout_centerVertical="true"
+                android:text="FOLLOWERS"
+                android:textSize="12sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="FOLLOWERS"
-            android:textColor="@color/grey"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/textFollowings"
-            app:layout_constraintHorizontal_bias="0.57"
-            app:layout_constraintStart_toEndOf="@+id/textPosts"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFollowers" />
+            android:layout_height="30dp"
+            android:id="@+id/relLayout3"
+            android:layout_below="@id/relLayout2"
+            android:layout_centerHorizontal="true">
 
-        <TextView
-            android:id="@+id/textViewFollowings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:text="165"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/textViewFollowings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="150"
+                android:textColor="@android:color/black"
+                android:layout_centerVertical="true"
+                android:textSize="18sp"/>
 
-        <TextView
-            android:id="@+id/textFollowings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="FOLLOWING"
-            android:textColor="@color/grey"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFollowings" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:id="@+id/textFollowings"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/textViewFollowings"
+                android:text="FOLLOWING"
+                android:textSize="12sp"/>
 
-        <TextView
+        </RelativeLayout>
+
+        <!--<TextView
             android:id="@+id/textEditProfile"
             android:layout_width="96dp"
             android:layout_height="21dp"
@@ -77,24 +100,10 @@
             android:text="Edit profile"
             android:textAlignment="center"
             android:textColor="@android:color/black"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textFollowers"
-            app:layout_constraintVertical_bias="0.6" />
+            tools:layout_editor_absoluteX="145dp"
+            tools:layout_editor_absoluteY="83dp"
+            android:visibility="gone"/>-->
 
-        <TextView
-            android:id="@+id/textViewPosts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="200"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</merge>
+</RelativeLayout>
