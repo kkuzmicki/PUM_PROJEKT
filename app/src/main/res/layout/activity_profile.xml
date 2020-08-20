@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <include layout="@layout/layout_top_menu" />
+            <include layout="@layout/top_profil"/>
 
             <RelativeLayout
                 android:id="@+id/relLayout3"

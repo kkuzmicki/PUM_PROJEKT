@@ -6,11 +6,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.aplikacja_pum.Models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 
 public class FirebaseMethods
 {
@@ -46,7 +48,6 @@ public class FirebaseMethods
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             userID = mAuth.getCurrentUser().getUid();
-
                         }
                         else
                         {
@@ -58,4 +59,26 @@ public class FirebaseMethods
                     }
                 });
     }
+
+    public boolean checkIfNameExists(String name, DataSnapshot dataSnapshot)
+    {
+        Log.d(TAG, "checkIfNameExists: checking if " + name + " already exists.");
+
+        User user = new User();
+
+        for(DataSnapshot ds: dataSnapshot.getChildren())
+        {
+            user.setName(ds.getValue(User.class).getName());
+
+            if(StringModifier.expandName(user.getName()).equals(name))
+            {
+                Log.d(TAG, "Podany name istnieje!");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 }

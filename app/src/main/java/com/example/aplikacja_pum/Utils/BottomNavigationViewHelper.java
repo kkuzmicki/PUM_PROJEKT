@@ -53,17 +53,17 @@ public class BottomNavigationViewHelper
                         break;
 
                     case R.id.ranking_icon:
-                        Intent ranking = new Intent(con, LoginActivity.class);
+                        Intent ranking = new Intent(con, RankingActivity.class);
                         con.startActivity(ranking);
                         break;
 
                     case R.id.add_icon:
-                        Intent add = new Intent(con, MainActivity.class);
+                        Intent add = new Intent(con, AddActivity.class);
                         con.startActivity(add);
                         break;
 
                     case R.id.create_icon:
-                        Intent create = new Intent(con, RegisterActivity.class);
+                        Intent create = new Intent(con, CreateActivity.class);
                         con.startActivity(create);
                         break;
 
