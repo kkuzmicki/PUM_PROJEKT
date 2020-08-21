@@ -20,7 +20,7 @@
             android:fontFamily="casual"
             android:text="MEMOGRAM"
             android:textColor="@color/black"
-            android:textSize="45dp" />
+            android:textSize="45dp" /> <!-- dopracować rozmiar FONTa -->
 
         <ImageView
             android:layout_width="wrap_content"
