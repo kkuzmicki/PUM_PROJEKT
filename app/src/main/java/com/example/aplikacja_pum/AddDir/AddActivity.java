@@ -24,7 +24,7 @@ public class AddActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // DLA TESTÓW!
+        setContentView(R.layout.activity_add); // DLA TESTÓW!
         Log.d(TAG, "onCreate: starting.");
 
         setupBottomNavigationView();
