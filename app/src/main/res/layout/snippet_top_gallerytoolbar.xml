@@ -21,13 +21,13 @@
                     android:layout_height="30dp"
                     android:layout_marginEnd="20dp"
                     android:layout_centerVertical="true"
-                    android:id="@+id/ivCloseShare"
+                    android:id="@+id/ivClose"
                     android:src="@drawable/ic_baseline_cancel_24"/>
 
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ivCloseShare"
+                    android:layout_toRightOf="@+id/ivClose"
                     android:id="@+id/spinnerDirectory"
                     android:textSize="20sp"
                     android:textColor="@color/black"

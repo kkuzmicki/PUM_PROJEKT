@@ -24,9 +24,6 @@ public class AddActivity extends AppCompatActivity
 {
 
     private static final String TAG = "AddActivity";
-    private static final int ActivityNumber = 2;
-
-    private Context mContext = AddActivity.this;
 
     private static final int VERIFY_PERMISSIONS_REQUEST = 1;
 
@@ -36,16 +33,13 @@ public class AddActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add); // DO TESTÓW!
-        Log.d(TAG, "onCreate: starting.");
+        setContentView(R.layout.activity_add);
 
         if(checkPermissionsArray(Permissions.PERMISSIONS)){
             setupViewPager();
         }else{
             verifyPermissions(Permissions.PERMISSIONS);
         }
-
-        //setupBottomNavigationView();
     }
 
     private void setupViewPager(){
@@ -89,16 +83,5 @@ public class AddActivity extends AppCompatActivity
         else{
             return true;
         }
-    }
-
-    private void setupBottomNavigationView()
-    {
-        Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx) findViewById(R.id.bottomNavViewBar);
-        BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
-        BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
-        Menu menu = bottomNavigationViewEx.getMenu();
-        MenuItem menuItem = menu.getItem(ActivityNumber);
-        menuItem.setChecked(true);
     }
 }
