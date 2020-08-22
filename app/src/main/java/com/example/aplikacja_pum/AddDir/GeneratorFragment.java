@@ -8,7 +8,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,7 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.aplikacja_pum.R;
 
-public class GalleryFragment extends Fragment {
+public class GeneratorFragment extends Fragment {
 
     private ProgressBar mProgressBar;
     private Spinner directorySpinner;
@@ -27,15 +26,7 @@ public class GalleryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_gallery, container, false); //wyswietlanie fragmentu
-
-        galleryImage = (ImageView) view.findViewById(R.id.galleryImageView);
-        gridView = (GridView) view.findViewById(R.id.gridView);
-        directorySpinner = (Spinner) view.findViewById(R.id.spinnerDirectory);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.GONE);
-
-
+        View view = inflater.inflate(R.layout.fragment_generator, container, false); //wyswietlanie fragmentu
         return view;
     }
 }

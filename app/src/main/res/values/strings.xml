@@ -4,6 +4,7 @@
     <string name="sign_out">Sign Out</string>
 
     <string name="gallery">Gallery</string>
+    <string name="generator">Generator</string>
     <string name="photo">Photo</string>
     <string name="Next" />
 </resources>
