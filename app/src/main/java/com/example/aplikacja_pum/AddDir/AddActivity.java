@@ -50,17 +50,14 @@ public class AddActivity extends AppCompatActivity
 
     private void setupViewPager(){
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        //adapter.addFragment(new GalleryFragment());
-        //adapter.addFragment(new PhotoFragment());
-/*
+        adapter.addFragment(new GalleryFragment(),"gallery");
+
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setText(getString(R.string.gallery));
-        tabLayout.getTabAt(1).setText(R.string.photo);
-        */
     }
     public void verifyPermissions(String[] permissions){
 

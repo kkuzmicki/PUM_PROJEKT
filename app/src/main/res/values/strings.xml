@@ -5,4 +5,5 @@
 
     <string name="gallery">Gallery</string>
     <string name="photo">Photo</string>
+    <string name="Next" />
 </resources>

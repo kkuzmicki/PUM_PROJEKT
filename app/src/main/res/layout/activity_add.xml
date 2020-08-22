@@ -15,6 +15,16 @@
 
         <!-- photo -->
         <RelativeLayout
+            android:id="@+id/relLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
+
+            <include layout="@layout/snippet_top_gallerytoolbar" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/relLayout2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
