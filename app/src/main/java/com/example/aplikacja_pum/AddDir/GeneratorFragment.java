@@ -28,6 +28,14 @@ public class GeneratorFragment extends Fragment {
     {
         View view = inflater.inflate(R.layout.fragment_generator, container, false); //wyswietlanie fragmentu
 
+        ImageView  imageView = (ImageView) view.findViewById(R.id.ivClose);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
         return view;
     }
 }

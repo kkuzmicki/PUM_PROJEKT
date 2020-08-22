@@ -35,6 +35,13 @@ public class GalleryFragment extends Fragment {
         mProgressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.GONE);
 
+        ImageView  imageView = (ImageView) view.findViewById(R.id.ivClose);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
 
         return view;
     }
