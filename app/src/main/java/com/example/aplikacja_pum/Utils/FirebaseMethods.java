@@ -76,7 +76,7 @@ public class FirebaseMethods
 
         User user = new User();
 
-        for(DataSnapshot ds: dataSnapshot.getChildren())
+        for(DataSnapshot ds: dataSnapshot.child(userID).getChildren())
         {
             user.setName(ds.getValue(User.class).getName());
 
