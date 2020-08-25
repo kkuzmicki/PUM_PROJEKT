@@ -82,15 +82,15 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        TextView textView = (TextView) view.findViewById(R.id.generate);
+        TextView textView = (TextView) view.findViewById(R.id.tvAdd);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //setupFirebaseAuth();
             }
         });
         init();
-        //setupFirebaseAuth();
+
         return view;
     }
 
@@ -187,11 +187,15 @@ public class GalleryFragment extends Fragment {
             }
         });
     }
-    /*
+
     //--------------------laczenie z baza oraz dodanie zdjecia--------------------
+    /*
     private void setupFirebaseAuth() {
 
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        myRef = mFirebaseDatabase.getReference();
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
