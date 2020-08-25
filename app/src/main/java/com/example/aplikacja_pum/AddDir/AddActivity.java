@@ -22,9 +22,6 @@ import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
 public class AddActivity extends AppCompatActivity
 {
-
-    private static final String TAG = "AddActivity";
-
     private static final int VERIFY_PERMISSIONS_REQUEST = 1;
 
     private ViewPager viewPager;
