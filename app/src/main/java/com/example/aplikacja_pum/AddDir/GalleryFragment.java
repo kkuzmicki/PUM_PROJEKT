@@ -1,7 +1,9 @@
 package com.example.aplikacja_pum.AddDir;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +24,15 @@ import com.example.aplikacja_pum.Login.LoginActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.FileSearch;
+import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.GridImageAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -30,7 +40,6 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import java.util.ArrayList;
 
 import static android.widget.Toast.LENGTH_SHORT;
-import static com.example.aplikacja_pum.Utils.UniversalImageLoader.setImage;
 
 public class GalleryFragment extends Fragment {
 
@@ -38,14 +47,24 @@ public class GalleryFragment extends Fragment {
     private Spinner directorySpinner;
     private GridView gridView;
     private ImageView galleryImage;
-    private ArrayList<String> list;
+
     private static final int NUM_GRID_COLUMNS = 3;
+
+    //lokalizacja img
     private String mAppend = "file:/";
+    private String mSelectedImage;
+    private ArrayList<String> list;
+
+    //ladowanie zdjecia
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference myRef;
+    private FirebaseMethods mFirebaseMethods;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
 
         galleryImage = (ImageView) view.findViewById(R.id.galleryImageView);
@@ -63,7 +82,7 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        TextView textView = (TextView) view.findViewById(R.id.tvNext);
+        TextView textView = (TextView) view.findViewById(R.id.generate);
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +90,7 @@ public class GalleryFragment extends Fragment {
             }
         });
         init();
+        //setupFirebaseAuth();
         return view;
     }
 
@@ -82,14 +102,19 @@ public class GalleryFragment extends Fragment {
             list = FileSearch.getDirectoryPaths(filePaths.PICTURES);
         }
 
-        if(FileSearch.getDirectoryPaths(filePaths.CAMERA) != null){
-            list = FileSearch.getDirectoryPaths(filePaths.CAMERA);
-        }
-
         list.add(filePaths.CAMERA);
         list.add(filePaths.PICTURES);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_spinner_item,list);
+        //nowa lista skroconych lokalizacji
+        ArrayList<String> directoryNames = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+
+            int index = list.get(i).lastIndexOf("/");
+            String string = list.get(i).substring(index);
+            directoryNames.add(string);
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, directoryNames);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         directorySpinner.setAdapter(arrayAdapter);
@@ -118,8 +143,10 @@ public class GalleryFragment extends Fragment {
         GridImageAdapter adapter = new GridImageAdapter(getActivity(), R.layout.layout_grid_imageview, mAppend, imgURLs);
         gridView.setAdapter(adapter);
         //poprawiona metoda, ktora nie laduje null listy dla poczatkowego elementu
-        if(imgURLs.size() > 0)
+        if(imgURLs.size() > 0){
             setImage(imgURLs.get(0),galleryImage,mAppend);
+            mSelectedImage = imgURLs.get(0);
+        }
         else {
             galleryImage.setImageResource(0);
             Toast.makeText(getActivity(), "This directory is empty...", LENGTH_SHORT).show();
@@ -128,7 +155,8 @@ public class GalleryFragment extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    setImage(imgURLs.get(position), galleryImage, mAppend);
+                setImage(imgURLs.get(position), galleryImage, mAppend);
+                mSelectedImage = imgURLs.get(0);
             }
         });
     }
@@ -159,5 +187,50 @@ public class GalleryFragment extends Fragment {
             }
         });
     }
+    /*
+    //--------------------laczenie z baza oraz dodanie zdjecia--------------------
+    private void setupFirebaseAuth() {
 
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                if(user != null)
+                {
+
+                }else {
+
+                }
+            }
+        };
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
+*/
 }

@@ -24,31 +24,16 @@
                     android:id="@+id/ivClose"
                     android:src="@drawable/ic_cancel"/>
 
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/ivClose"
-                    android:id="@+id/spinnerDirectory"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:text="Gallery"
-                    android:layout_centerVertical="true"
-                    android:gravity="center_vertical">
-
-
-                </Spinner>
-
                 <TextView
+                    android:id="@+id/generate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
                     android:layout_centerVertical="true"
-                    android:id="@+id/generate"
-                    />
+                    android:layout_marginRight="15dp"
+                    android:text="Generate"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
 
 
