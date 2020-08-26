@@ -92,6 +92,8 @@ public class FirebaseMethods
 
     public void addNewUser(String email, String name)
     {
+        Log.d(TAG, "Adding new user!");
+
         User user = new User(userID, email, name);
 
         databaseReference.child("users")

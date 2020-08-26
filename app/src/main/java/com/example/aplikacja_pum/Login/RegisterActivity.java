@@ -28,6 +28,9 @@ public class RegisterActivity extends AppCompatActivity
 {
     private static final String TAG = "RegisterActivity";
 
+    private String name;
+    private String email;
+
     private EditText nameET;
     private EditText emailET;
     private EditText passwordET;
@@ -57,7 +60,6 @@ public class RegisterActivity extends AppCompatActivity
         passwordET = findViewById(R.id.passwordET);
         registerB = findViewById(R.id.registerB);
         registerPB = findViewById(R.id.registerPB);
-        //Button registerB = findViewById(R.id.registerB);
         loadingTV = findViewById(R.id.loadingTV);
 
         loadingTV.setVisibility(View.GONE);
@@ -70,8 +72,8 @@ public class RegisterActivity extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                String name = nameET.getText().toString();
-                String email = emailET.getText().toString();
+                name = nameET.getText().toString();
+                email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
 
                 if(name.isEmpty() || email.isEmpty() || password.isEmpty())
@@ -87,6 +89,8 @@ public class RegisterActivity extends AppCompatActivity
                 }
             }
         });
+
+        setupFirebaseAuth();
     }
 
     // ustawienie autoryzacji Firebase
@@ -94,44 +98,46 @@ public class RegisterActivity extends AppCompatActivity
     {
         Log.d(TAG, "ustawienie autoryzacji Firebase");
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener()
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
+        mAuthListener = firebaseAuth -> {
+            Log.d(TAG, "onAuthStateChanged");
+
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if(user != null)
             {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null)
-                {
-                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
+                Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
 
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener()
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener()
+                {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot)
                     {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot)
-                        {
+                        name += "#" + databaseReference.push().getKey().substring(3, 10); // wartosci do zmiany?
 
-                        }
+                        firebaseMethods.addNewUser(email, name);
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error)
-                        {
+                        registerPB.setVisibility(View.GONE);
+                        loadingTV.setVisibility(View.GONE);
+                    }
 
-                        }
-                    });
-                }
-                else
-                {
-                    Log.d(TAG, "onAuthStateChanged: signed out");
-                }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error)
+                    {
 
-                if(mAuth.getCurrentUser() != null)
-                {
-                    Log.d(TAG, "ZMIANA EKRANU");
+                    }
+                });
+            }
+            else
+            {
+                Log.d(TAG, "onAuthStateChanged: signed out");
+            }
 
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+            if(mAuth.getCurrentUser() != null)
+            {
+                Log.d(TAG, "ZMIANA EKRANU");
+
+                //Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                //startActivity(intent);
+                //finish();
             }
         };
     }
