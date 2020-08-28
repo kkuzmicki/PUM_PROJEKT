@@ -1,5 +1,6 @@
 package com.example.aplikacja_pum.AddDir;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.FileSearch;
 import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.GridImageAdapter;
+import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -95,33 +97,46 @@ public class GalleryFragment extends Fragment {
     }
 
     private void init(){
-        //wybor folderu
-        FilePaths filePaths = new FilePaths();
 
-        if(FileSearch.getDirectoryPaths(filePaths.PICTURES) != null){
-            list = FileSearch.getDirectoryPaths(filePaths.PICTURES);
-        }
+            //wybor folderu
+            FilePaths filePaths = new FilePaths();
+        try {
+            if(FileSearch.getDirectoryPaths(filePaths.PICTURES) != null){
+                list = FileSearch.getDirectoryPaths(filePaths.PICTURES);
+            }
 
-        list.add(filePaths.CAMERA);
-        list.add(filePaths.PICTURES);
+            if(FileSearch.getDirectoryPaths(filePaths.CAMERA) != null){
+                list = FileSearch.getDirectoryPaths(filePaths.CAMERA);
+            }
 
-        //nowa lista skroconych lokalizacji
-        ArrayList<String> directoryNames = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++){
 
-            int index = list.get(i).lastIndexOf("/");
-            String string = list.get(i).substring(index);
-            directoryNames.add(string);
-        }
+            list.add(filePaths.CAMERA);
+            list.add(filePaths.PICTURES);
+
+            //nowa lista skroconych lokalizacji
+            ArrayList<String> directoryNames = new ArrayList<>();
+            for(int i = 0; i < list.size(); i++){
+
+                int index = list.get(i).lastIndexOf("/");
+                String string = list.get(i).substring(index);
+                directoryNames.add(string);
+            }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, directoryNames);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         directorySpinner.setAdapter(arrayAdapter);
+
+        }catch (Exception e){
+
+                Toast.makeText(getActivity(),
+                        "No photos ..."+"\n"+" Create in generator :)", LENGTH_SHORT).show();
+
+        }
         directorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setupGridView(list.get(position));
+                    setupGridView(list.get(position));
             }
 
             @Override
