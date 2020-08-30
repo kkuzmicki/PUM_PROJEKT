@@ -45,6 +45,23 @@ public class FirebaseMethods
         }
     }
 
+    public void sendEmail()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(user != null)
+        {
+            user.sendEmailVerification()
+                    .addOnCompleteListener(new OnCompleteListener<Void>()
+                    {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                        }
+                    });
+        }
+    }
+
     public void registerNewEmail(final String email, String password, final String name)
     {
         mAuth.createUserWithEmailAndPassword(email, password)
