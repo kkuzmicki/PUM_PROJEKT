@@ -97,6 +97,8 @@ public class RegisterActivity extends AppCompatActivity
     {
         Log.d(TAG, "ustawienie autoryzacji Firebase");
         mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         mAuthListener = firebaseAuth -> {
             Log.d(TAG, "onAuthStateChanged");
 
@@ -134,9 +136,9 @@ public class RegisterActivity extends AppCompatActivity
             {
                 Log.d(TAG, "ZMIANA EKRANU");
 
-                //Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                //startActivity(intent);
-                //finish();
+                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         };
     }
