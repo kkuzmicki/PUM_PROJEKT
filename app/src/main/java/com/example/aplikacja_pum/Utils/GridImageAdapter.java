@@ -57,39 +57,41 @@ public class GridImageAdapter extends ArrayAdapter<String> {
 
         String imgURL = getItem(position);
         ImageLoader imageLoader = ImageLoader.getInstance();
-        imageLoader.displayImage(mAppend + imgURL, viewHolder.image, new ImageLoadingListener() {
-            @Override
-            public void onLoadingStarted(String imageUri, View view) {
-                if(viewHolder.mProgressBar != null){
-                    viewHolder.mProgressBar.setVisibility(View.VISIBLE);
+        if(imgURL != null) {
+            imageLoader.displayImage(mAppend + imgURL, viewHolder.image, new ImageLoadingListener() {
+                @Override
+                public void onLoadingStarted(String imageUri, View view) {
+                    if (viewHolder.mProgressBar != null) {
+                        viewHolder.mProgressBar.setVisibility(View.VISIBLE);
+                    }
+
                 }
 
-            }
+                @Override
+                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                    if (viewHolder.mProgressBar != null) {
+                        viewHolder.mProgressBar.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                if(viewHolder.mProgressBar != null){
-                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
 
-            }
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    if (viewHolder.mProgressBar != null) {
+                        viewHolder.mProgressBar.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                if(viewHolder.mProgressBar != null){
-                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
 
-            }
+                @Override
+                public void onLoadingCancelled(String imageUri, View view) {
+                    if (viewHolder.mProgressBar != null) {
+                        viewHolder.mProgressBar.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onLoadingCancelled(String imageUri, View view) {
-                if(viewHolder.mProgressBar != null){
-                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
-
-            }
-        });
+            });
+        }
         return convertView;
     }
 }

@@ -5,6 +5,8 @@
 
     <string name="gallery">Gallery</string>
     <string name="generator">Generator</string>
+    <string name="selected_image">selected_image</string>
     <string name="photo">Photo</string>
     <string name="Next" />
+    <string name="enter_the_title">Enter the title...</string>
 </resources>

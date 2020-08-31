@@ -57,13 +57,6 @@ public class GalleryFragment extends Fragment {
     private String mSelectedImage;
     private ArrayList<String> list;
 
-    //ladowanie zdjecia
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference myRef;
-    private FirebaseMethods mFirebaseMethods;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -88,7 +81,9 @@ public class GalleryFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //setupFirebaseAuth();
+                Intent intent = new Intent(getActivity(), AddTitle.class);
+                intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                startActivity(intent);
             }
         });
         init();
@@ -202,54 +197,4 @@ public class GalleryFragment extends Fragment {
             }
         });
     }
-
-    //--------------------laczenie z baza oraz dodanie zdjecia--------------------
-    /*
-    private void setupFirebaseAuth() {
-
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        myRef = mFirebaseDatabase.getReference();
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if(user != null)
-                {
-
-                }else {
-
-                }
-            }
-        };
-
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-*/
 }
