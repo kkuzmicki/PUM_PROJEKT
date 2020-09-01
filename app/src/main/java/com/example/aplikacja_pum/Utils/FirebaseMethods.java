@@ -2,6 +2,7 @@ package com.example.aplikacja_pum.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -25,6 +26,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class FirebaseMethods
 {
     private static final String TAG = "FirebaseMethods";
@@ -38,6 +43,8 @@ public class FirebaseMethods
     private String userID;
 
     private Context context;
+
+    private double photoUploadProgress = 0;
 
     public FirebaseMethods(Context context)
     {
@@ -86,7 +93,7 @@ public class FirebaseMethods
                             }
                             else
                             {
-                                Toast.makeText(context, "nie udalo sie wyslac maila", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "nie udalo sie wyslac maila", LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -114,7 +121,7 @@ public class FirebaseMethods
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(context, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
+                                    LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -160,41 +167,54 @@ public class FirebaseMethods
     public void uploadNewPhoto(String type, String title, String tags, int imageCount, String imgUrl) {
         FilePaths filePaths = new FilePaths();
 
-        if(type.equals(R.string.profile_photo)) {
-            //sciazka na Firebase (photos/users/userID/photoCount)
-            StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
-                    + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/photo" + (imageCount + 1));
+        if(type.equals(context.getString(R.string.profile_photo))) {
 
-            //convert url to bitmap
-            Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
-
-            //upload img
-            UploadTask uploadTask = null;
-            byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
-
-            uploadTask = storageReference.putBytes(bytes);
-
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //success
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //fail
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    //progress
-                    // (100 * przeslane) / calosc
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                }
-            });
         }else
-            if(type.equals(R.string.new_photo)){
 
+            if(type.equals(context.getString(R.string.new_photo))){
+                //sciazka na Firebase (photos/users/userID/photoCount)
+                StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
+                        + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/photo" + (imageCount + 1));
+
+                //convert url to bitmap
+                Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
+
+                //upload img
+                UploadTask uploadTask = null;
+                byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
+
+                uploadTask = storageReference.putBytes(bytes);
+
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        //success
+                        //url Basefire
+                        Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+
+                        Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //fail
+                        Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                        //progress
+                        // (100 * przeslane) / calosc
+                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                        if(progress - 15 > photoUploadProgress){
+
+                            Toast.makeText(context, "Photo upload progress: "
+                                    + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
+                            photoUploadProgress = progress;
+                        }
+                    }
+                });
         }
     }
 }

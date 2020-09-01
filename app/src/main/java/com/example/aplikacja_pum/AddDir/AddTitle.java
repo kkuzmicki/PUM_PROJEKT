@@ -57,8 +57,9 @@ public class AddTitle extends AppCompatActivity {
 
         setupFirebaseAuth();
         closeActivity();
-        AddToImage();
         ShowImage();
+        AddToImage();
+
     }
 
     private void closeActivity(){
@@ -83,7 +84,6 @@ public class AddTitle extends AppCompatActivity {
                 String tags = tagsEt.getText().toString();
 
                 mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), title, tags, imageCount, imgUrl);
-
             }
         });
     }
@@ -91,7 +91,8 @@ public class AddTitle extends AppCompatActivity {
     private void ShowImage(){
         Intent intent = getIntent();
         ImageView imageView = (ImageView) findViewById(R.id.imageToAdd);
-        UniversalImageLoader.setImage(intent.getStringExtra(getString(R.string.selected_image)), imageView,null, mAppend);
+        imgUrl = intent.getStringExtra(getString(R.string.selected_image));
+        UniversalImageLoader.setImage(imgUrl, imageView,null, mAppend);
     }
 
     //--------------------laczenie z baza oraz dodanie zdjecia--------------------
