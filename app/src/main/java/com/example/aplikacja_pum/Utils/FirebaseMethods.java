@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
+import com.example.aplikacja_pum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -43,6 +44,18 @@ public class FirebaseMethods
         {
             userID = mAuth.getCurrentUser().getUid();
         }
+    }
+
+    public int getImageCount(DataSnapshot dataSnapshot){
+        int count = 0;
+
+        for (DataSnapshot ds: dataSnapshot
+                .child(context.getString(R.string.user_photos))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .getChildren()){
+                    count ++;
+        }
+        return count;
     }
 
     public void sendEmail()

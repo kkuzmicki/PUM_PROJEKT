@@ -3,12 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
-
+        android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -23,34 +20,45 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/relLayout2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relLayout1"
-                android:background="@drawable/grey_border_bottom">
+                android:layout_height="match_parent"
+                android:id="@+id/relLayout2">
+            <!-- poprawic na responsywny widok !!! -->
 
                 <ImageView
                     android:id="@+id/imageToAdd"
-                    android:layout_width="247dp"
-                    android:layout_height="188dp"
-                    android:layout_marginStart="87dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp"
                     android:layout_marginEnd="76dp"
-                    android:layout_marginBottom="50dp" />
+                    android:layout_marginBottom="350dp"
+                    android:layout_toEndOf="@+id/text2"
+                    tools:ignore="UnknownId" />
 
                 <EditText
-                    android:id="@+id/textView2"
+                    android:id="@+id/titleTV"
                     android:layout_width="236dp"
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/imageToAdd"
                     android:layout_alignBottom="@+id/imageToAdd"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginBottom="-50dp"
+                    android:layout_marginBottom="-75dp"
+                    android:layout_centerHorizontal="true"
                     android:hint="@string/enter_the_title"
 
                     />
 
+                <EditText
+                    android:id="@+id/tagTV"
+                    android:layout_width="236dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/titleTV"
+                    android:layout_alignBottom="@+id/titleTV"
+                    android:layout_marginBottom="-60dp"
+                    android:hint="Enter the tag..."
+                    />
             </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

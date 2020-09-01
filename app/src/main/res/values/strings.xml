@@ -9,4 +9,7 @@
     <string name="photo">Photo</string>
     <string name="Next" />
     <string name="enter_the_title">Enter the title...</string>
+
+    <string name="photos">photos</string>
+    <string name="user_photos">user_photos</string>
 </resources>

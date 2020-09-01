@@ -57,6 +57,8 @@ public class GalleryFragment extends Fragment {
     private String mSelectedImage;
     private ArrayList<String> list;
 
+    private ArrayList<String> imgURLs;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,11 +83,16 @@ public class GalleryFragment extends Fragment {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddTitle.class);
-                intent.putExtra(getString(R.string.selected_image), mSelectedImage);
-                startActivity(intent);
+                if(imgURLs.size() > 0) {
+                    Intent intent = new Intent(getActivity(), AddTitle.class);
+                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(getActivity(), "There are no photos in this directory to add ...", LENGTH_SHORT).show();
+                }
             }
         });
+
         init();
 
         return view;
@@ -94,7 +101,8 @@ public class GalleryFragment extends Fragment {
     private void init(){
 
             //wybor folderu
-            FilePaths filePaths = new FilePaths();
+        FilePaths filePaths = new FilePaths();
+
         try {
             if(FileSearch.getDirectoryPaths(filePaths.PICTURES) != null){
                 list = FileSearch.getDirectoryPaths(filePaths.PICTURES);
@@ -142,7 +150,7 @@ public class GalleryFragment extends Fragment {
     }
 
     private void setupGridView(String selectedDirectory) {
-        final ArrayList<String> imgURLs = FileSearch.getFilePaths(selectedDirectory);
+        imgURLs = FileSearch.getFilePaths(selectedDirectory);
 
         //ustawienie kolumn grid
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
