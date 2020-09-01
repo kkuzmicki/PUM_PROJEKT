@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static android.widget.Toast.LENGTH_SHORT;
+
 public class AddTitle extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -35,9 +38,10 @@ public class AddTitle extends AppCompatActivity {
     private String mAppend = "file:/";
     private ImageView closeActivity;
     private TextView add;
-    private EditText tags;
-    private EditText title;
+    private EditText tagsEt;
+    private EditText titleEt;
     private int imageCount = 0;
+    private String imgUrl;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -48,8 +52,8 @@ public class AddTitle extends AppCompatActivity {
 
         mFirebaseMethods = new FirebaseMethods(AddTitle.this);
 
-        tags = (EditText) findViewById(R.id.tagTV);
-        title = (EditText) findViewById(R.id.titleTV);
+        tagsEt = (EditText) findViewById(R.id.tagTV);
+        titleEt = (EditText) findViewById(R.id.titleTV);
 
         setupFirebaseAuth();
         closeActivity();
@@ -73,6 +77,13 @@ public class AddTitle extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //dodaje zdj na serwer
+                Toast.makeText(AddTitle.this,
+                        "Upload new photo...", LENGTH_SHORT).show();
+                String title = titleEt.getText().toString();
+                String tags = tagsEt.getText().toString();
+
+                mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), title, tags, imageCount, imgUrl);
+
             }
         });
     }
