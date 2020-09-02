@@ -38,7 +38,6 @@ public class AddTitle extends AppCompatActivity {
     private String mAppend = "file:/";
     private ImageView closeActivity;
     private TextView add;
-    private EditText tagsEt;
     private EditText titleEt;
     private int imageCount = 0;
     private String imgUrl;
@@ -52,8 +51,7 @@ public class AddTitle extends AppCompatActivity {
 
         mFirebaseMethods = new FirebaseMethods(AddTitle.this);
 
-        tagsEt = (EditText) findViewById(R.id.tagTV);
-        titleEt = (EditText) findViewById(R.id.titleTV);
+        titleEt = (EditText) findViewById(R.id.titleEt);
 
         setupFirebaseAuth();
         closeActivity();
@@ -77,13 +75,19 @@ public class AddTitle extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //dodaje zdj na serwer
-                Toast.makeText(AddTitle.this,
-                        "Upload new photo...", LENGTH_SHORT).show();
                 String title = titleEt.getText().toString();
-                String tags = tagsEt.getText().toString();
 
-                mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), title, tags, imageCount, imgUrl);
+                if(title.isEmpty() == false){
+                    Toast.makeText(AddTitle.this,
+                        "Upload new photo...", LENGTH_SHORT).show();
+
+                    //dodaje zdj na serwer
+                    mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), title, imageCount, imgUrl);
+                }else{
+                    Toast.makeText(AddTitle.this,
+                            "Complete the description...", LENGTH_SHORT).show();
+                }
+
             }
         });
     }

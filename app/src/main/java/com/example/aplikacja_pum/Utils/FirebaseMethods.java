@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.example.aplikacja_pum.R;
@@ -26,7 +27,10 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -164,7 +168,7 @@ public class FirebaseMethods
                 .setValue(settings);
     }
 
-    public void uploadNewPhoto(String type, String title, String tags, int imageCount, String imgUrl) {
+    public void uploadNewPhoto(String type, String title, int imageCount, String imgUrl) {
         FilePaths filePaths = new FilePaths();
 
         if(type.equals(context.getString(R.string.profile_photo))) {
@@ -193,6 +197,9 @@ public class FirebaseMethods
                         Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
 
                         Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+
+                        //dodanie informacji o zdj do bazy
+                        addPhotoToDatabase(title, firebaseUri.toString());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -216,5 +223,31 @@ public class FirebaseMethods
                     }
                 });
         }
+    }
+
+    private void addPhotoToDatabase(String title, String url){
+
+        String tags = StringModifier.getTags(title);
+        String newPhotoKey = databaseReference.child(context.getString(R.string.photos)).push().getKey();
+        Photo photo = new Photo();
+        photo.setTitle(title);
+        photo.setDataCreated(getTime());
+        photo.setImagePath(url);
+        photo.setTags(tags);
+        photo.setUserId(FirebaseAuth.getInstance().getUid());
+        photo.setPhotoId(newPhotoKey);
+
+        //wysylanie danych do bazy
+        databaseReference.child(context.getString(R.string.user_photos)).child(FirebaseAuth.getInstance()
+                .getCurrentUser().getUid()).child(newPhotoKey).setValue(photo);
+
+        databaseReference.child(context.getString(R.string.photos))
+                .child(newPhotoKey).setValue(photo);
+    }
+
+    private String getTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMANY);
+        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
+        return simpleDateFormat.format(new Date());
     }
 }
