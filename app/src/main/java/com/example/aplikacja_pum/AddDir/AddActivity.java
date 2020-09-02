@@ -1,30 +1,30 @@
 package com.example.aplikacja_pum.AddDir;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Gallery;
-import android.widget.TableLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.aplikacja_pum.Create.CreateActivity;
 import com.example.aplikacja_pum.R;
-import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
 import com.example.aplikacja_pum.Utils.Permissions;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.io.File;
 
 public class AddActivity extends AppCompatActivity
 {
     private static final int VERIFY_PERMISSIONS_REQUEST = 1;
+    private static final String TAG = "AddActivity" ;
 
     private ViewPager viewPager;
+
+    protected SectionsStatePagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,26 +33,44 @@ public class AddActivity extends AppCompatActivity
         setContentView(R.layout.activity_add);
 
         if(checkPermissionsArray(Permissions.PERMISSIONS)){
+            //zaakceptowane wczesniej
             setupViewPager();
         }else{
+            //weryfikacja
             verifyPermissions(Permissions.PERMISSIONS);
+            //poprawiono akceptacje
+            finish();
         }
     }
 
     private void setupViewPager(){
-        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new GalleryFragment(),"gallery");
-        adapter.addFragment(new GeneratorFragment(),"generator");
+        adapter.addFragment(new CameraFragment(),"generator");
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
         tabLayout.setupWithViewPager(viewPager);
+
         tabLayout.getTabAt(0).setText(getString(R.string.gallery));
-        tabLayout.getTabAt(1).setText(getString(R.string.generator));
+        tabLayout.getTabAt(1).setText("Camera");
+
+        File fileCamera = new File("/storage/emulated/0/DCIM/camera/");
+        File filePictures = new File("/storage/emulated/0/DCIM/pictures/");
+
+        if(fileCamera.getTotalSpace() == 0 && filePictures.getTotalSpace() == 0){
+            Intent intent = new Intent(AddActivity.this, CreateActivity.class);
+            startActivity(intent);
+        }else{
+            tabLayout.getTabAt(0).select();
+        }
     }
+
+
     public void verifyPermissions(String[] permissions){
+        Log.d(TAG, "verifyPermissions: verifying permissions.");
 
         ActivityCompat.requestPermissions(
                 AddActivity.this,
@@ -62,6 +80,7 @@ public class AddActivity extends AppCompatActivity
     }
 
     public boolean checkPermissionsArray(String[] permissions){
+        Log.d(TAG, "checkPermissionsArray: checking permissions array.");
 
         for(int i = 0; i< permissions.length; i++){
             String check = permissions[i];
@@ -72,15 +91,22 @@ public class AddActivity extends AppCompatActivity
         return true;
     }
 
+    //zapytanie
     public boolean checkPermissions(String permission){
+        Log.d(TAG, "checkPermissions: checking permission: " + permission);
 
         int permissionRequest = ActivityCompat.checkSelfPermission(AddActivity.this, permission);
 
         if(permissionRequest != PackageManager.PERMISSION_GRANTED){
+            Log.d(TAG, "checkPermissions: \n Permission was not granted for: " + permission);
             return false;
         }
         else{
+            Log.d(TAG, "checkPermissions: \n Permission was granted for: " + permission);
             return true;
         }
+    }
+    public int getCurrentTabNumber(){
+        return viewPager.getCurrentItem();
     }
 }

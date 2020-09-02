@@ -28,6 +28,7 @@ import com.example.aplikacja_pum.Utils.FileSearch;
 import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.GridImageAdapter;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,7 +58,14 @@ public class GalleryFragment extends Fragment {
     private String mSelectedImage;
     private ArrayList<String> list;
 
-    private ArrayList<String> imgURLs;
+    protected ArrayList<String> imgURLs = null;
+    private TabLayout tabLayout;
+
+    public GalleryFragment(TabLayout tabLayout) {
+        tabLayout = tabLayout;
+    }
+    public GalleryFragment() {
+    }
 
     @Nullable
     @Override
@@ -86,6 +94,7 @@ public class GalleryFragment extends Fragment {
                 if(imgURLs.size() > 0) {
                     Intent intent = new Intent(getActivity(), AddTitle.class);
                     intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    Log.d("zxc", mSelectedImage);
                     startActivity(intent);
                 }else{
                     Toast.makeText(getActivity(), "There are no photos in this directory to add ...", LENGTH_SHORT).show();
@@ -130,11 +139,10 @@ public class GalleryFragment extends Fragment {
 
         directorySpinner.setAdapter(arrayAdapter);
 
-        }catch (Exception e){
+        }catch (Exception e) {
 
-                Toast.makeText(getActivity(),
-                        "No photos ..."+"\n"+" Create in generator :)", LENGTH_SHORT).show();
-
+            Toast.makeText(getActivity(),
+                    "No photos ..." + "\n" + " Create in generator :)", LENGTH_SHORT).show();
         }
         directorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

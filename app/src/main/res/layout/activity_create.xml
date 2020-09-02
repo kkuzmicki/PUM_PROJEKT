@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,14 +11,22 @@
         <include layout="@layout/snippet_top_generatortoolbar"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="131dp"
-        android:layout_marginTop="175dp"
-        android:text="GENERATOR_TEST" />
+        android:id="@+id/relLayout2">
+        <include layout="@layout/center_create"/>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/relLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!-- bottom navigation -->
+        <include
+            layout="@layout/layout_bottom_menu" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>
