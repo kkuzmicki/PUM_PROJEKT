@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity
     {
         Log.d(TAG, "checkCurrentUser: checking if user is logged in");
 
-        if(user == null)
+        if(user == null || !user.isEmailVerified())
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

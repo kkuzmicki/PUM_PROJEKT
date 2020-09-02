@@ -145,7 +145,7 @@ public class LoginActivity extends AppCompatActivity
                     Log.d(TAG, "onAuthStateChanged: signed out");
                 }
 
-                if(mAuth.getCurrentUser() != null)
+                if(mAuth.getCurrentUser() != null && user.isEmailVerified())
                 {
                     Log.d(TAG, "ZMIANA EKRANU");
 
