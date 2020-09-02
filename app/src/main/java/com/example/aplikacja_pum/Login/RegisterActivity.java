@@ -136,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity
             {
                 Log.d(TAG, "ZMIANA EKRANU");
 
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

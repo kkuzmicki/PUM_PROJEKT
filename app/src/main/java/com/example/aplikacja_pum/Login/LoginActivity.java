@@ -1,5 +1,6 @@
 package com.example.aplikacja_pum.Login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -43,6 +46,7 @@ public class LoginActivity extends AppCompatActivity
         Log.d(TAG, "Ekran logowania!");
         setupFirebaseAuth();
         init();
+        context = this;
     }
 
     private void init()
@@ -84,22 +88,36 @@ public class LoginActivity extends AppCompatActivity
                     loginPB.setVisibility(View.VISIBLE);
                     loadingTV.setVisibility(View.VISIBLE);
 
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task)
-                        {
-                            if(!task.isSuccessful())
+                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        try {
+                            if(user.isEmailVerified())
                             {
-                                Toast.makeText(LoginActivity.this, "Logging failed!", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "mail zweryfikowany!!!");
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
                             }
                             else
                             {
-                                Toast.makeText(LoginActivity.this, "Logging successed!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "mail niezweryfikowany", Toast.LENGTH_SHORT).show();
+                                mAuth.signOut();
                             }
-                            loginPB.setVisibility(View.GONE);
-                            loadingTV.setVisibility(View.GONE);
                         }
+                        catch (NullPointerException e)
+                        {
+                            Log.e(TAG, "wyjatek NullPointException");
+                        }
+
+                        if(!task.isSuccessful())
+                        {
+                            Toast.makeText(LoginActivity.this, "Logging failed!", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(LoginActivity.this, "Logging successed!", Toast.LENGTH_SHORT).show();
+                        }
+                        loginPB.setVisibility(View.GONE);
+                        loadingTV.setVisibility(View.GONE);
                     });
                 }
                 Log.d(TAG, "KLIK!");
