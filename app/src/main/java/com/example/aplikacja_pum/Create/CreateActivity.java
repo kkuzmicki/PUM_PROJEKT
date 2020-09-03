@@ -17,7 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,6 +56,9 @@ public class CreateActivity extends AppCompatActivity
     private TextView topTV;
     private TextView botTV;
     private TextView cameraTv;
+    private SeekBar sizeSeekBar;
+    private TextView sizeValue;
+    private int size = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -81,6 +86,9 @@ public class CreateActivity extends AppCompatActivity
             public void onClick(View view) {
                 Log.d("Generator","Generuje mema");
 
+                if(generateTv.isEnabled() == false){
+                    // komunikat o poprawnym utworzeniu mema
+                }
             }
         });
 
@@ -99,11 +107,36 @@ public class CreateActivity extends AppCompatActivity
         tryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                topTV.setText(topEt.getText().toString());
-                botTV.setText(botEt.getText().toString());
+                if(tryButton.isEnabled() == false){
+                    // komunikat o wyborze img
+
+                }else {
+                    topTV.setText(topEt.getText().toString());
+                    botTV.setText(botEt.getText().toString());
+                }
             }
         });
 
+        //operacja bara
+        sizeSeekBar = (SeekBar) findViewById(R.id.size);
+        sizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                size = i;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                topTV.setTextSize(size);
+                botTV.setTextSize(size);
+                sizeValue.setText("Font size: " + size);
+            }
+        });
         //zapytanie o pozwolenie camery (uzyto rowniez w addActivity)
         if(checkPermissionsArray(Permissions.PERMISSIONS)){
             //zaakceptowane wczesniej
@@ -122,6 +155,8 @@ public class CreateActivity extends AppCompatActivity
             finish();
         }
 
+
+
         topEt = (EditText) findViewById(R.id.textTop);
         botEt = (EditText) findViewById(R.id.textBot);
 
@@ -130,14 +165,18 @@ public class CreateActivity extends AppCompatActivity
 
         loadMem = (ImageView) findViewById(R.id.loadMem);
 
+        sizeValue = (TextView) findViewById(R.id.sizeValue);
+
         generateTv.setEnabled(false);
+        tryButton.setEnabled(false);
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RESULT_LOAD_IMAGE && requestCode == RESULT_OK && data != null){
+        if(requestCode == RESULT_LOAD_IMAGE && null != data){
             Uri selectedImg = data.getData();
             String [] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImg, filePathColumn, null, null, null);
@@ -148,15 +187,19 @@ public class CreateActivity extends AppCompatActivity
             //pobranie image view
             loadMem.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             generateTv.setEnabled(true);
-        }
+       }
 
         if(requestCode == CAMERA_REQUEST_CODE){
             //pobranie img
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             //ustawienie img
             loadMem.setImageBitmap(bitmap);
+            generateTv.setEnabled(true);
         }
 
+        topTV.setText("");
+        botTV.setText("");
+        tryButton.setEnabled(true);
     }
 
     public void verifyPermissions(String[] permissions){
