@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -30,8 +32,15 @@ import com.example.aplikacja_pum.AddDir.AddActivity;
 import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
+import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.Permissions;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
@@ -59,6 +68,8 @@ public class CreateActivity extends AppCompatActivity
     private SeekBar sizeSeekBar;
     private TextView sizeValue;
     private int size = 0;
+    private OutputStream outputStream;
+    private String TAG1 = "GENERETOR";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -84,10 +95,39 @@ public class CreateActivity extends AppCompatActivity
         generateTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Generator","Generuje mema");
 
-                if(generateTv.isEnabled() == false){
-                    // komunikat o poprawnym utworzeniu mema
+                //pobranie imageViev do bitmapy
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) loadMem.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                //Tworzenie sciezki oraz dir
+                FilePaths paths = new FilePaths();
+                File dir = new File(paths.PICTURES);
+
+                if(!dir.exists()) {
+                    dir.mkdir();
+                }
+
+                //tworzenie sciezki potencjalnego pliku
+                File file = new File(dir, "Mem_" + System.currentTimeMillis() + ".jpg");
+
+                //proba zapisu
+                try {
+                    outputStream = new FileOutputStream(file);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                //kompresja do jpeg
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if(file.exists()){
+                    Intent intent = new Intent(CreateActivity.this, AddActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -107,13 +147,16 @@ public class CreateActivity extends AppCompatActivity
         tryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tryButton.isEnabled() == false){
-                    // komunikat o wyborze img
 
-                }else {
-                    topTV.setText(topEt.getText().toString());
-                    botTV.setText(botEt.getText().toString());
-                }
+                    if(topEt.getText().length() == 0 || botEt.getText().length() == 0){
+                        Log.d(TAG1, "wpszi tekst");
+                    } else
+                        if(topEt.getText().length() >= 30 || botEt.getText().length() >= 30){
+                            Log.d(TAG1, "za duzo !!!");
+                        }else{
+                        topTV.setText(topEt.getText().toString());
+                        botTV.setText(botEt.getText().toString());
+                        }
             }
         });
 
@@ -155,8 +198,6 @@ public class CreateActivity extends AppCompatActivity
             finish();
         }
 
-
-
         topEt = (EditText) findViewById(R.id.textTop);
         botEt = (EditText) findViewById(R.id.textBot);
 
@@ -169,21 +210,27 @@ public class CreateActivity extends AppCompatActivity
 
         generateTv.setEnabled(false);
         tryButton.setEnabled(false);
-
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == RESULT_LOAD_IMAGE && null != data){
+            //sciezka wybranego pliku
             Uri selectedImg = data.getData();
+
             String [] filePathColumn = {MediaStore.Images.Media.DATA};
+
             Cursor cursor = getContentResolver().query(selectedImg, filePathColumn, null, null, null);
             cursor.moveToFirst();
+
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
+
             //pobranie image view
             loadMem.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             generateTv.setEnabled(true);
@@ -192,6 +239,7 @@ public class CreateActivity extends AppCompatActivity
         if(requestCode == CAMERA_REQUEST_CODE){
             //pobranie img
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+
             //ustawienie img
             loadMem.setImageBitmap(bitmap);
             generateTv.setEnabled(true);

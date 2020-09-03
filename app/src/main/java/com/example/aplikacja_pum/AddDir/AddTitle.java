@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.UniversalImageLoader;
@@ -83,6 +84,9 @@ public class AddTitle extends AppCompatActivity {
 
                     //dodaje zdj na serwer
                     mFirebaseMethods.uploadNewPhoto(getString(R.string.new_photo), title, imageCount, imgUrl);
+
+                    Intent intent = new Intent(AddTitle.this, MainActivity.class);
+                    startActivity(intent);
                 }else{
                     Toast.makeText(AddTitle.this,
                             "Complete the description...", LENGTH_SHORT).show();

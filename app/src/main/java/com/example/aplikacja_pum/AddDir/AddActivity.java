@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.aplikacja_pum.Create.CreateActivity;
 import com.example.aplikacja_pum.R;
+import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.Permissions;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -59,8 +60,10 @@ public class AddActivity extends AppCompatActivity
         tabLayout.getTabAt(0).setText(getString(R.string.gallery));
         //tabLayout.getTabAt(1).setText("Camera");
 
-        File fileCamera = new File("/storage/emulated/0/DCIM/camera/");
-        File filePictures = new File("/storage/emulated/0/DCIM/pictures/");
+        FilePaths paths = new FilePaths();
+
+        File fileCamera = new File(paths.CAMERA);
+        File filePictures = new File(paths.PICTURES);
 
         if(fileCamera.getTotalSpace() == 0 && filePictures.getTotalSpace() == 0){
             Intent intent = new Intent(AddActivity.this, CreateActivity.class);

@@ -115,15 +115,15 @@ public class GalleryFragment extends Fragment {
         try {
             if(FileSearch.getDirectoryPaths(filePaths.PICTURES) != null){
                 list = FileSearch.getDirectoryPaths(filePaths.PICTURES);
-            }
+            }else
 
             if(FileSearch.getDirectoryPaths(filePaths.CAMERA) != null){
                 list = FileSearch.getDirectoryPaths(filePaths.CAMERA);
             }
 
-
-            list.add(filePaths.CAMERA);
+            //lista do spinera wyswietlajacego sciekze
             list.add(filePaths.PICTURES);
+            list.add(filePaths.CAMERA);
 
             //nowa lista skroconych lokalizacji
             ArrayList<String> directoryNames = new ArrayList<>();

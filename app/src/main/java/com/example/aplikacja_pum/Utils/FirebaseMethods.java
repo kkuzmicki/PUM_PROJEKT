@@ -1,6 +1,7 @@
 package com.example.aplikacja_pum.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
@@ -8,6 +9,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.aplikacja_pum.AddDir.AddActivity;
+import com.example.aplikacja_pum.AddDir.AddTitle;
+import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
@@ -172,7 +176,7 @@ public class FirebaseMethods
         FilePaths filePaths = new FilePaths();
 
         if(type.equals(context.getString(R.string.profile_photo))) {
-
+            //dokonczyc dodawanie zdjecia profilowego
         }else
 
             if(type.equals(context.getString(R.string.new_photo))){
@@ -200,6 +204,7 @@ public class FirebaseMethods
 
                         //dodanie informacji o zdj do bazy
                         addPhotoToDatabase(title, firebaseUri.toString());
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
