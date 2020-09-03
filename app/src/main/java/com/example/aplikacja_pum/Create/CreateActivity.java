@@ -1,8 +1,11 @@
 package com.example.aplikacja_pum.Create;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,19 +21,27 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.aplikacja_pum.AddDir.AddActivity;
 import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
+import com.example.aplikacja_pum.Utils.Permissions;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 public class CreateActivity extends AppCompatActivity
 {
 
     private static final String TAG = "CreateActivity";
     private static final int ActivityNumber = 3;
-    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE = 10;
+
+    private static final int VERIFY_PERMISSIONS_REQUEST = 1;
+    private static final int  CAMERA_REQUEST_CODE = 100;
 
     private Context mContext = CreateActivity.this;
 
@@ -42,6 +53,7 @@ public class CreateActivity extends AppCompatActivity
     private Button tryButton;
     private TextView topTV;
     private TextView botTV;
+    private TextView cameraTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -79,7 +91,6 @@ public class CreateActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
-
             }
         });
 
@@ -92,6 +103,24 @@ public class CreateActivity extends AppCompatActivity
                 botTV.setText(botEt.getText().toString());
             }
         });
+
+        //zapytanie o pozwolenie camery (uzyto rowniez w addActivity)
+        if(checkPermissionsArray(Permissions.PERMISSIONS)){
+            //zaakceptowane wczesniej
+            cameraTv = (TextView) findViewById(R.id.camera);
+            cameraTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                }
+            });
+        }else{
+            //weryfikacja
+            verifyPermissions(Permissions.PERMISSIONS);
+            //poprawiono akceptacje
+            finish();
+        }
 
         topEt = (EditText) findViewById(R.id.textTop);
         botEt = (EditText) findViewById(R.id.textBot);
@@ -119,6 +148,52 @@ public class CreateActivity extends AppCompatActivity
             //pobranie image view
             loadMem.setImageBitmap(BitmapFactory.decodeFile(picturePath));
             generateTv.setEnabled(true);
+        }
+
+        if(requestCode == CAMERA_REQUEST_CODE){
+            //pobranie img
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            //ustawienie img
+            loadMem.setImageBitmap(bitmap);
+        }
+
+    }
+
+    public void verifyPermissions(String[] permissions){
+        Log.d(TAG, "verifyPermissions: verifying permissions.");
+
+        ActivityCompat.requestPermissions(
+                CreateActivity.this,
+                permissions,
+                VERIFY_PERMISSIONS_REQUEST
+        );
+    }
+
+    public boolean checkPermissionsArray(String[] permissions){
+        Log.d(TAG, "checkPermissionsArray: checking permissions array.");
+
+        for(int i = 0; i< permissions.length; i++){
+            String check = permissions[i];
+            if(!checkPermissions(check)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //zapytanie
+    public boolean checkPermissions(String permission){
+        Log.d(TAG, "checkPermissions: checking permission: " + permission);
+
+        int permissionRequest = ActivityCompat.checkSelfPermission(CreateActivity.this, permission);
+
+        if(permissionRequest != PackageManager.PERMISSION_GRANTED){
+            Log.d(TAG, "checkPermissions: \n Permission was not granted for: " + permission);
+            return false;
+        }
+        else{
+            Log.d(TAG, "checkPermissions: \n Permission was granted for: " + permission);
+            return true;
         }
     }
 

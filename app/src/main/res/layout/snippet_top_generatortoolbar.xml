@@ -14,7 +14,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                >
 
                 <ImageView
                     android:layout_width="30dp"
@@ -22,29 +23,50 @@
                     android:layout_marginEnd="20dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/ivClose"
-                    android:src="@drawable/ic_cancel"/>
+                    android:src="@drawable/ic_cancel"
+                    />
 
                 <TextView
                     android:id="@+id/load"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="Load"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="122dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/grey"
+                    android:text="LOAD"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:layout_marginRight="10dp"
-                    android:layout_centerVertical="true"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/generate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="80dp"
-                    android:text="Generate"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@color/grey"
+                    android:text="GENERATE"
                     android:textColor="@color/black"
                     android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/camera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="186dp"
+                    android:layout_marginBottom="23dp"
+                    android:background="@color/grey"
+                    android:text="CAMERA"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:layout_centerVertical="true"/>
 
             </RelativeLayout>
 

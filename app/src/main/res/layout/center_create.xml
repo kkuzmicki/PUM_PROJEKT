@@ -58,33 +58,33 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textPanel"
         android:id="@+id/imgPanel"
-        android:background="@drawable/border_generator"
-        android:padding="10dp"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints"
+        >
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
             android:id="@+id/loadMem"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/topTV"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"/>
 
         <TextView
+            android:id="@+id/botTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/botTV"
-            android:layout_below="@+id/topTV"
-            android:paddingTop="30dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignBottom="@+id/loadMem"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp" />
 
     </RelativeLayout>
         </LinearLayout>

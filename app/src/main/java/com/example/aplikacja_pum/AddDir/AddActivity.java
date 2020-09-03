@@ -46,7 +46,9 @@ public class AddActivity extends AppCompatActivity
     private void setupViewPager(){
         adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new GalleryFragment(),"gallery");
-        adapter.addFragment(new CameraFragment(),"generator");
+        //wykorzystac adapter cam
+        // (wprowadzono do generatora memow) !!!
+        //adapter.addFragment(new CameraFragment(),"generator");
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
@@ -55,7 +57,7 @@ public class AddActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.getTabAt(0).setText(getString(R.string.gallery));
-        tabLayout.getTabAt(1).setText("Camera");
+        //tabLayout.getTabAt(1).setText("Camera");
 
         File fileCamera = new File("/storage/emulated/0/DCIM/camera/");
         File filePictures = new File("/storage/emulated/0/DCIM/pictures/");
@@ -63,8 +65,6 @@ public class AddActivity extends AppCompatActivity
         if(fileCamera.getTotalSpace() == 0 && filePictures.getTotalSpace() == 0){
             Intent intent = new Intent(AddActivity.this, CreateActivity.class);
             startActivity(intent);
-        }else{
-            tabLayout.getTabAt(0).select();
         }
     }
 
