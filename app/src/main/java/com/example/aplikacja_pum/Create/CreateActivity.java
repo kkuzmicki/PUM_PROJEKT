@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -42,6 +44,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+
+import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
@@ -68,7 +72,9 @@ public class CreateActivity extends AppCompatActivity
     private TextView cameraTv;
     private SeekBar sizeSeekBar;
     private TextView sizeValue;
-    private int size = 0;
+    private Button colorPicker;
+    private int size = 10;
+    private int colorAct = Color.BLACK;
     private OutputStream outputStream;
     private String TAG1 = "GENERETOR";
 
@@ -96,10 +102,11 @@ public class CreateActivity extends AppCompatActivity
         generateTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //screen layout
+                View content = findViewById(R.id.imgPanel);
 
-                //pobranie imageViev do bitmapy
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) loadMem.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
+                //pobranie screenu do bitmapy (wykorzystanie funkcji)
+                Bitmap bitmap = getScreenShot(content);
 
                 //Tworzenie sciezki oraz dir
                 FilePaths paths = new FilePaths();
@@ -151,15 +158,35 @@ public class CreateActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                    if(topEt.getText().length() == 0 || botEt.getText().length() == 0){
+                    if(topEt.getText().length() == 0 || botEt.getText().length() == 0) {
                         Toast.makeText(CreateActivity.this, "Wpisany tekst jest za mały !", Toast.LENGTH_LONG).show();
-                    } else
-                        if(topEt.getText().length() >= 30 || botEt.getText().length() >= 30){
-                            Toast.makeText(CreateActivity.this, "Wpisany tekst jest za duży !", Toast.LENGTH_LONG).show();
-                        }else{
-                        topTV.setText(topEt.getText().toString());
-                        botTV.setText(botEt.getText().toString());
-                        }
+                    }else{
+                        correctFont();
+                    }
+            }
+        });
+
+        //zmiana koloru
+        colorPicker =(Button) findViewById(R.id.colorPicker);
+        colorPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AmbilWarnaDialog dialog = new AmbilWarnaDialog(CreateActivity.this, colorAct, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                    @Override
+                    public void onCancel(AmbilWarnaDialog dialog) {
+
+                    }
+
+                    @Override
+                    public void onOk(AmbilWarnaDialog dialog, int color) {
+                        colorAct = color;
+
+                        topTV.setTextColor(colorAct);
+                        botTV.setTextColor(colorAct);
+                    }
+
+                });
+                dialog.show();
             }
         });
 
@@ -178,9 +205,9 @@ public class CreateActivity extends AppCompatActivity
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                topTV.setTextSize(size);
-                botTV.setTextSize(size);
+
                 sizeValue.setText("Font size: " + size);
+                correctFont();
             }
         });
         //zapytanie o pozwolenie camery (uzyto rowniez w addActivity)
@@ -210,6 +237,8 @@ public class CreateActivity extends AppCompatActivity
         loadMem = (ImageView) findViewById(R.id.loadMem);
 
         sizeValue = (TextView) findViewById(R.id.sizeValue);
+
+        sizeValue.setText("Font size: 10");
 
         generateTv.setEnabled(false);
         tryButton.setEnabled(false);
@@ -304,5 +333,28 @@ public class CreateActivity extends AppCompatActivity
         Menu menu = bottomNavigationViewEx.getMenu();
         MenuItem menuItem = menu.getItem(ActivityNumber);
         menuItem.setChecked(true);
+    }
+
+    private static Bitmap getScreenShot(View view){
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap =  Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+    private void correctFont(){
+        if(topEt.getText().length() >= 35 || botEt.getText().length() >= 35) {
+            Toast.makeText(CreateActivity.this, "Wpisany tekst jest za duży !", Toast.LENGTH_LONG).show();
+        }else if((topEt.getText().length() >= 25 || botEt.getText().length() >= 25) && size >=40){
+            Toast.makeText(CreateActivity.this, "Wpisany tekst jest za duży !", Toast.LENGTH_LONG).show();
+        }else if((topEt.getText().length() >= 10 || botEt.getText().length() >= 10) && size >=55){
+            Toast.makeText(CreateActivity.this, "Wpisany tekst jest za duży !", Toast.LENGTH_LONG).show();
+        }else {
+
+            topTV.setText(topEt.getText().toString());
+            botTV.setText(botEt.getText().toString());
+            topTV.setTextSize(size);
+            botTV.setTextSize(size);
+        }
     }
 }
