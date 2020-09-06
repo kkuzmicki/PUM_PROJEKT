@@ -28,7 +28,6 @@ import java.util.ArrayList;
 
 public class EditProfileFragment extends Fragment
 {
-
     private static final String TAG = "EditProfileFragment";
     private ArrayList<CountryItem> mCountryList;
     private CountryAdapter mAdapter;
@@ -87,7 +86,10 @@ public class EditProfileFragment extends Fragment
         return view;
     }
 
+    private void setupFirebase()
+    {
 
+    }
 
     private void setProfileImage()
     {
