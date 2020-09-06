@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.aplikacja_pum.Login.LoginActivity;
+import com.example.aplikacja_pum.Profil.AccountSettingsActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.FileSearch;
@@ -92,10 +93,19 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(imgURLs.size() > 0) {
-                    Intent intent = new Intent(getActivity(), AddTitle.class);
-                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
-                    Log.d("zxc", mSelectedImage);
-                    startActivity(intent);
+                    if(isRootTask()){
+                        Intent intent = new Intent(getActivity(), AddTitle.class);
+                        intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                        Log.d("zxc", mSelectedImage);
+                        startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                        intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                        intent.putExtra(getString(R.string.return_to_fragment), getString(R.string.edit_profile));
+                        Log.d("zxc", mSelectedImage);
+                        startActivity(intent);
+                    }
+
                 }else{
                     Toast.makeText(getActivity(), "There are no photos in this directory to add ...", LENGTH_SHORT).show();
                 }
@@ -212,5 +222,13 @@ public class GalleryFragment extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private boolean isRootTask(){
+        if(((AddActivity)getActivity()).getTask() == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

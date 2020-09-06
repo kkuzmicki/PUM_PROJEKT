@@ -1,6 +1,7 @@
 package com.example.aplikacja_pum.Profil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
+import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 
@@ -51,6 +53,7 @@ public class AccountSettingsActivity extends AppCompatActivity
         setupSettingsList();
         setUpBottomNavigationViev();
         setupFragments();
+        getIncomingIntent();
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
         backArrow.setOnClickListener(new View.OnClickListener()
@@ -100,6 +103,16 @@ public class AccountSettingsActivity extends AppCompatActivity
         });
     }
 
+    private void getIncomingIntent(){
+        Intent intent = getIntent();
+
+        if(intent.hasExtra(getString(R.string.selected_image))){
+            if(intent.getStringExtra(getString(R.string.return_to_fragment)).equals(getString(R.string.edit_profile))){
+                FirebaseMethods firebaseMethods = new FirebaseMethods(AccountSettingsActivity.this);
+                firebaseMethods.uploadNewPhoto(getString(R.string.profile_photo), null, 0 , intent.getStringExtra(getString(R.string.selected_image)));
+            }
+        }
+    }
     private void setUpBottomNavigationViev()
     {
         Log.d(TAG,"konfiguracjaNawigiDol");

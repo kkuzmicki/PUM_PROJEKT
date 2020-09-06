@@ -176,60 +176,114 @@ public class FirebaseMethods
         FilePaths filePaths = new FilePaths();
 
         if(type.equals(context.getString(R.string.profile_photo))) {
-            //dokonczyc dodawanie zdjecia profilowego
+            //sciazka na Firebase (photos/users/userID/photoCount)
+            StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
+                    + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/profile_photo");
+
+            //convert url to bitmap
+            Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
+
+            //upload img
+            UploadTask uploadTask = null;
+            byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
+
+            uploadTask = storageReference.putBytes(bytes);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //success
+                    //url Basefire
+                    Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+
+                    Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+
+                    //dodanie z profilu
+                    setProfilePhoto(imgUrl.toString());
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //fail
+                    Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    //progress
+                    // (100 * przeslane) / calosc
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                    if(progress - 15 > photoUploadProgress){
+
+                        Toast.makeText(context, "Photo upload progress: "
+                                + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
+                        photoUploadProgress = progress;
+                    }
+                }
+            });
         }else
 
-            if(type.equals(context.getString(R.string.new_photo))){
-                //sciazka na Firebase (photos/users/userID/photoCount)
-                StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
-                        + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/photo" + (imageCount + 1));
+        if(type.equals(context.getString(R.string.new_photo))){
+            //sciazka na Firebase (photos/users/userID/photoCount)
+            StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
+                    + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/photo" + (imageCount + 1));
 
-                //convert url to bitmap
-                Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
+            //convert url to bitmap
+            Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
 
-                //upload img
-                UploadTask uploadTask = null;
-                byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
+            //upload img
+            UploadTask uploadTask = null;
+            byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
 
-                uploadTask = storageReference.putBytes(bytes);
+            uploadTask = storageReference.putBytes(bytes);
 
-                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        //success
-                        //url Basefire
-                        Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //success
+                    //url Basefire
+                    Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
 
-                        Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+                    Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
 
-                        //dodanie informacji o zdj do bazy
-                        addPhotoToDatabase(title, firebaseUri.toString());
+                    //dodanie informacji o zdj do bazy
+                    addPhotoToDatabase(title, firebaseUri.toString());
 
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    //fail
+                    Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    //progress
+                    // (100 * przeslane) / calosc
+                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+
+                    if(progress - 15 > photoUploadProgress){
+
+                        Toast.makeText(context, "Photo upload progress: "
+                                + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
+                        photoUploadProgress = progress;
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        //fail
-                        Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        //progress
-                        // (100 * przeslane) / calosc
-                        double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-
-                        if(progress - 15 > photoUploadProgress){
-
-                            Toast.makeText(context, "Photo upload progress: "
-                                    + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
-                            photoUploadProgress = progress;
-                        }
-                    }
-                });
+                }
+            });
         }
     }
 
+    private void setProfilePhoto(String url){
+
+        databaseReference.child(context.getString(R.string.user_account_settings))
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(context.getString(R.string.profile_photo))
+                .setValue(url);
+
+    }
     private void addPhotoToDatabase(String title, String url){
 
         String tags = StringModifier.getTags(title);

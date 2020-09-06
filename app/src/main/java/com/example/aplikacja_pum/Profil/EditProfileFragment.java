@@ -1,6 +1,7 @@
 package com.example.aplikacja_pum.Profil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.aplikacja_pum.AddDir.AddActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.CountryAdapter;
 import com.example.aplikacja_pum.Utils.CountryItem;
@@ -29,6 +32,7 @@ public class EditProfileFragment extends Fragment
     private static final String TAG = "EditProfileFragment";
     private ArrayList<CountryItem> mCountryList;
     private CountryAdapter mAdapter;
+    private TextView changeProfilePhoto;
 
     private ImageView mProfilePhoto;
 
@@ -69,8 +73,18 @@ public class EditProfileFragment extends Fragment
             }
         });
 
+        changeProfilePhoto = (TextView) view.findViewById(R.id.changeProfilePhoto);
+        changeProfilePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent  = new Intent(getActivity(), AddActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                getActivity().startActivity(intent);
+            }
+        });
         return view;
     }
+
 
 
     private void setProfileImage()
