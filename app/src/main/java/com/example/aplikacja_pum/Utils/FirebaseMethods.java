@@ -332,7 +332,7 @@ public class FirebaseMethods
                 userAccountSettings.setFollowing(ds.child(userID).getValue(UserAccountSettings.class).getFollowing());
             }
 
-            if(ds.getKey().equals("user_account_settings"))
+            if(ds.getKey().equals("users"))
             {
                 Log.d(TAG, "getUserInfo: " + ds);
 

@@ -157,6 +157,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="40dp"
                     android:background="@null"
+                    android:enabled="false"
                     android:hint="Email"
                     android:inputType="textNoSuggestions" />
 
@@ -183,6 +184,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="40dp"
                     android:background="@null"
+                    android:enabled="false"
                     android:hint="Numer telefonu"
                     android:inputType="textNoSuggestions" />
 

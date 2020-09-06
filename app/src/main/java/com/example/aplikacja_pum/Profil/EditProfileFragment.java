@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -18,10 +19,18 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.aplikacja_pum.AddDir.AddActivity;
+import com.example.aplikacja_pum.Models.UserInfo;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.CountryAdapter;
 import com.example.aplikacja_pum.Utils.CountryItem;
+import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.UniversalImageLoader;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -35,6 +44,16 @@ public class EditProfileFragment extends Fragment
 
     private ImageView mProfilePhoto;
 
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseMethods firebaseMethods;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
+    EditText usernameET;
+    EditText descriptionET;
+    EditText emailET;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -42,10 +61,14 @@ public class EditProfileFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_editprofile, container, false);
         mProfilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
 
-
+        usernameET = view.findViewById(R.id.username);
+        descriptionET = view.findViewById(R.id.description);
+        emailET = view.findViewById(R.id.email);
 
         setProfileImage();
         initList();
+        setupFirebase();
+        init();
 
         Spinner spinnerCountries = (Spinner) view.findViewById(R.id.spnCountry);
         mAdapter = new CountryAdapter(this.getActivity(), mCountryList);
@@ -83,12 +106,45 @@ public class EditProfileFragment extends Fragment
                 getActivity().startActivity(intent);
             }
         });
+
+        firebaseMethods = new FirebaseMethods(super.getContext());
+
         return view;
+    }
+
+    private void init()
+    {
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d(TAG, "TEST ZDANY");
+
+                UserInfo userInfo = firebaseMethods.getUserInfo(snapshot);
+
+                usernameET.setText(userInfo.getUserAccountSettings().getName());
+                descriptionET.setText(userInfo.getUserAccountSettings().getDescription());
+                emailET.setText(userInfo.getUser().getEmail());
+                //Log.d(TAG, userInfo.getUser().getEmail());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void setupFirebase()
     {
+        Log.d(TAG, "ustawienie autoryzacji Firebase");
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+    }
 
+    private void saveProfileSettings()
+    {
+        final String name;
     }
 
     private void setProfileImage()
