@@ -15,6 +15,7 @@ import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
+import com.example.aplikacja_pum.Models.UserInfo;
 import com.example.aplikacja_pum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -308,5 +309,39 @@ public class FirebaseMethods
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMANY);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
         return simpleDateFormat.format(new Date());
+    }
+
+    public UserInfo getUserInfo(DataSnapshot dataSnapshot)
+    {
+        Log.d(TAG, "pobieranie informacji o uzytkowniku z bazy");
+
+        User user = new User();
+        UserAccountSettings userAccountSettings = new UserAccountSettings();
+
+        for(DataSnapshot ds: dataSnapshot.getChildren())
+        {
+            if(ds.getKey().equals("user_account_settings"))
+            {
+                Log.d(TAG, "getUserInfo: " + ds);
+
+                userAccountSettings.setName(ds.child(userID).getValue(UserAccountSettings.class).getName());
+                userAccountSettings.setDescription(ds.child(userID).getValue(UserAccountSettings.class).getDescription());
+                userAccountSettings.setAvatar(ds.child(userID).getValue(UserAccountSettings.class).getAvatar());
+                userAccountSettings.setPosts(ds.child(userID).getValue(UserAccountSettings.class).getPosts());
+                userAccountSettings.setFollowers(ds.child(userID).getValue(UserAccountSettings.class).getFollowers());
+                userAccountSettings.setFollowing(ds.child(userID).getValue(UserAccountSettings.class).getFollowing());
+            }
+
+            if(ds.getKey().equals("user_account_settings"))
+            {
+                Log.d(TAG, "getUserInfo: " + ds);
+
+                user.setName(ds.child(userID).getValue(User.class).getName());
+                user.setEmail(ds.child(userID).getValue(User.class).getEmail());
+                user.setUser_id(ds.child(userID).getValue(User.class).getUser_id());
+            }
+        }
+
+        return new UserInfo(user, userAccountSettings);
     }
 }

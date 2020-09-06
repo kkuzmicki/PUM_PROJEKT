@@ -43,6 +43,8 @@ public class EditProfileFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_editprofile, container, false);
         mProfilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
 
+
+
         setProfileImage();
         initList();
 
