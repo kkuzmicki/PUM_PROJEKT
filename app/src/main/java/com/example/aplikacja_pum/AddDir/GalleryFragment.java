@@ -182,7 +182,7 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 setImage(imgURLs.get(position), galleryImage, mAppend);
-                mSelectedImage = imgURLs.get(0);
+                mSelectedImage = imgURLs.get(position);
             }
         });
     }

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -128,6 +129,8 @@ public class CreateActivity extends AppCompatActivity
                 if(file.exists()){
                     Intent intent = new Intent(CreateActivity.this, AddActivity.class);
                     startActivity(intent);
+
+                    Toast.makeText(CreateActivity.this, "Poprawnie wygenerowano MEMA!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -149,10 +152,10 @@ public class CreateActivity extends AppCompatActivity
             public void onClick(View view) {
 
                     if(topEt.getText().length() == 0 || botEt.getText().length() == 0){
-                        Log.d(TAG1, "wpszi tekst");
+                        Toast.makeText(CreateActivity.this, "Wpisany tekst jest za mały !", Toast.LENGTH_LONG).show();
                     } else
                         if(topEt.getText().length() >= 30 || botEt.getText().length() >= 30){
-                            Log.d(TAG1, "za duzo !!!");
+                            Toast.makeText(CreateActivity.this, "Wpisany tekst jest za duży !", Toast.LENGTH_LONG).show();
                         }else{
                         topTV.setText(topEt.getText().toString());
                         botTV.setText(botEt.getText().toString());
@@ -236,13 +239,17 @@ public class CreateActivity extends AppCompatActivity
             generateTv.setEnabled(true);
        }
 
-        if(requestCode == CAMERA_REQUEST_CODE){
+        if(requestCode == CAMERA_REQUEST_CODE && data != null){
             //pobranie img
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
-            //ustawienie img
-            loadMem.setImageBitmap(bitmap);
-            generateTv.setEnabled(true);
+            if(bitmap != null) {
+                //ustawienie img
+                loadMem.setImageBitmap(bitmap);
+                generateTv.setEnabled(true);
+            }else {
+                finish();
+            }
         }
 
         topTV.setText("");
