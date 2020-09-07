@@ -67,26 +67,29 @@ public class RegisterActivity extends AppCompatActivity
 
         firebaseMethods = new FirebaseMethods(RegisterActivity.this);
 
-        registerB.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
+        registerB.setOnClickListener(v -> {
+            name = nameET.getText().toString();
+            email = emailET.getText().toString();
+            String password = passwordET.getText().toString();
+
+            if(name.isEmpty() || email.isEmpty() || password.isEmpty())
             {
-                name = nameET.getText().toString();
-                email = emailET.getText().toString();
-                String password = passwordET.getText().toString();
+                Toast.makeText(RegisterActivity.this, "All fields must be filled out!", Toast.LENGTH_SHORT).show();
+            }
+            else if(name.indexOf('#') != -1)
+            {
+                Toast.makeText(RegisterActivity.this, "'#' symbol is not allowed!", Toast.LENGTH_SHORT).show();
+            }
+            else if(name.indexOf(' ') != -1)
+            {
+                Toast.makeText(RegisterActivity.this, "Spaces are now allowed!", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                registerPB.setVisibility(View.VISIBLE);
+                loadingTV.setVisibility(View.VISIBLE);
 
-                if(name.isEmpty() || email.isEmpty() || password.isEmpty())
-                {
-                    Toast.makeText(RegisterActivity.this, "All fields must be filled out!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    registerPB.setVisibility(View.VISIBLE);
-                    loadingTV.setVisibility(View.VISIBLE);
-
-                    firebaseMethods.registerNewEmail(email, password, name);
-                }
+                firebaseMethods.registerNewEmail(email, password, name);
             }
         });
         setupFirebaseAuth();

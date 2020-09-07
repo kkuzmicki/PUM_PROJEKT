@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.aplikacja_pum.AddDir.AddActivity;
+import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserInfo;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.CountryAdapter;
@@ -53,6 +55,8 @@ public class EditProfileFragment extends Fragment
     EditText usernameET;
     EditText descriptionET;
     EditText emailET;
+
+    private String userID;
 
     @Nullable
     @Override
@@ -141,11 +145,33 @@ public class EditProfileFragment extends Fragment
         mAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+
+        userID = mAuth.getCurrentUser().getUid();
     }
 
     private void saveProfileSettings()
     {
-        final String name;
+        final String name = usernameET.getText().toString();
+        final String description = descriptionET.getText().toString();
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = new User();
+                for(DataSnapshot ds: snapshot.child("users").getChildren())
+                {
+                    if(ds.getKey().equals(userID))
+                    {
+                        user.setName(ds.getValue(User.class).getName());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void setProfileImage()
