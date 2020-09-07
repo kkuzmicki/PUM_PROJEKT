@@ -57,6 +57,7 @@ public class EditProfileFragment extends Fragment
     EditText emailET;
 
     private String userID;
+    String username;
 
     @Nullable
     @Override
@@ -125,7 +126,7 @@ public class EditProfileFragment extends Fragment
 
                 UserInfo userInfo = firebaseMethods.getUserInfo(snapshot);
 
-                String username = userInfo.getUserAccountSettings().getName();
+                username = userInfo.getUserAccountSettings().getName();
                 username = username.substring(0, username.indexOf("#"));
                 usernameET.setText(username);
                 descriptionET.setText(userInfo.getUserAccountSettings().getDescription());
