@@ -158,7 +158,7 @@ public class EditProfileFragment extends Fragment
     private void initList(){
         mCountryList = new ArrayList<>();
         mCountryList.add(new CountryItem("Poland", R.drawable.pl_flag));
-        mCountryList.add(new CountryItem("UK", R.drawable.uk_flag));
+        mCountryList.add(new CountryItem("Great Britain", R.drawable.uk_flag));
         mCountryList.add(new CountryItem("Germany", R.drawable.ger_flag));
     }
 }
