@@ -1,98 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent" android:layout_height="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
     android:layout_centerHorizontal="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/textViewPosts"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp">
+        android:layout_marginStart="1dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="200"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewFollowers"
+        app:layout_constraintEnd_toStartOf="@+id/textPosts"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/relLayout1"
-            android:layout_centerHorizontal="true">
+    <TextView
+        android:id="@+id/textPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="POSTS"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textFollowers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewPosts"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
-            <TextView
-                android:id="@+id/textViewPosts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="200"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:id="@+id/textPosts"
-                android:layout_toRightOf="@+id/textViewPosts"
-                android:layout_centerVertical="true"
-                android:text="POSTS"
-                android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/textViewFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="300"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewFollowings"
+        app:layout_constraintEnd_toStartOf="@+id/textFollowers"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewPosts" />
 
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/textFollowers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FOLLOWERS"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/textFollowings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewFollowers"
+        app:layout_constraintTop_toBottomOf="@+id/textPosts" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/relLayout2"
-            android:layout_below="@id/relLayout1"
-            android:layout_centerHorizontal="true">
 
-            <TextView
-                android:id="@+id/textViewFollowers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="300"
-                android:textColor="@android:color/black"
-                android:layout_centerVertical="true"
-                android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/textViewFollowings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="150"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textFollowings"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFollowers" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:id="@+id/textFollowers"
-                android:layout_toRightOf="@+id/textViewFollowers"
-                android:layout_centerVertical="true"
-                android:text="FOLLOWERS"
-                android:textSize="12sp"/>
+    <TextView
+        android:id="@+id/textFollowings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="FOLLOWING"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textViewFollowings"
+        app:layout_constraintTop_toBottomOf="@+id/textFollowers" />
 
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:id="@+id/relLayout3"
-            android:layout_below="@id/relLayout2"
-            android:layout_centerHorizontal="true">
-
-            <TextView
-                android:id="@+id/textViewFollowings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="150"
-                android:textColor="@android:color/black"
-                android:layout_centerVertical="true"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:id="@+id/textFollowings"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/textViewFollowings"
-                android:text="FOLLOWING"
-                android:textSize="12sp"/>
-
-        </RelativeLayout>
-
-        <!--<TextView
+    <!--<TextView
             android:id="@+id/textEditProfile"
             android:layout_width="96dp"
             android:layout_height="21dp"
@@ -104,6 +108,5 @@
             tools:layout_editor_absoluteY="83dp"
             android:visibility="gone"/>-->
 
-    </RelativeLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
