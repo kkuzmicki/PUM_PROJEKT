@@ -45,10 +45,11 @@
         android:id="@+id/textViewSignOutBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/progressBar"
         android:layout_centerInParent="true"
+        android:layout_marginBottom="-31dp"
         android:text="Wylogowuję..."
         android:textSize="60px"
-        android:layout_alignBottom="@+id/progressBar"
         tools:ignore="DuplicateIds,UnknownId" />
 
 

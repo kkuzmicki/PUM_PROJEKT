@@ -95,7 +95,9 @@ public class ProfilActivity extends AppCompatActivity
                 description.setText(userInfo.getUserAccountSettings().getDescription());
 
                 display_name = findViewById(R.id.display_name);
-                display_name.setText(userInfo.getUserAccountSettings().getName());
+                String usernameString = userInfo.getUserAccountSettings().getName();
+                usernameString = usernameString.substring(0, usernameString.indexOf("#"));
+                display_name.setText(usernameString);
 
                 textViewPosts = findViewById(R.id.textViewPosts);
                 textViewPosts.setText(Long.toString(userInfo.getUserAccountSettings().getPosts()));

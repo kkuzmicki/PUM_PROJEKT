@@ -1,6 +1,7 @@
 package com.example.aplikacja_pum.Profil;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +39,8 @@ public class SignOutFragment extends Fragment
         textViewSignOut = (TextView)view.findViewById(R.id.textViewSignOut);
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
         Button buttonSignOut = (Button)view.findViewById(R.id.buttonSignOut);
+
+        textViewSignOutBar.setTextColor(Color.RED);
 
         //ukrycie bara oraz info
         progressBar.setVisibility(View.GONE);

@@ -121,10 +121,11 @@ public class EditProfileFragment extends Fragment
 
                 UserInfo userInfo = firebaseMethods.getUserInfo(snapshot);
 
-                usernameET.setText(userInfo.getUserAccountSettings().getName());
+                String username = userInfo.getUserAccountSettings().getName();
+                username = username.substring(0, username.indexOf("#"));
+                usernameET.setText(username);
                 descriptionET.setText(userInfo.getUserAccountSettings().getDescription());
                 emailET.setText(userInfo.getUser().getEmail());
-                //Log.d(TAG, userInfo.getUser().getEmail());
             }
 
             @Override
