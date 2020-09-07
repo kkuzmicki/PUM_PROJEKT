@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -56,6 +58,8 @@ public class EditProfileFragment extends Fragment
     EditText descriptionET;
     EditText emailET;
 
+    TextView saveSettingsButton;
+
     private String userID;
     String username;
 
@@ -69,6 +73,14 @@ public class EditProfileFragment extends Fragment
         usernameET = view.findViewById(R.id.username);
         descriptionET = view.findViewById(R.id.description);
         emailET = view.findViewById(R.id.email);
+        saveSettingsButton = view.findViewById(R.id.saveSettingsButton);
+
+        saveSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveProfileSettings();
+            }
+        });
 
         setProfileImage();
         initList();
@@ -152,7 +164,7 @@ public class EditProfileFragment extends Fragment
 
     private void saveProfileSettings()
     {
-        final String name = usernameET.getText().toString();
+        String name = usernameET.getText().toString();
         final String description = descriptionET.getText().toString();
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -173,6 +185,23 @@ public class EditProfileFragment extends Fragment
 
             }
         });
+
+        databaseReference.child("user_account_settings").child(userID).child("description").setValue(description);
+        if(name.indexOf('#') != -1)
+        {
+            Toast.makeText(super.getContext(), "'#' symbol is not allowed!", Toast.LENGTH_SHORT).show();
+        }
+        else if(name.indexOf(' ') != -1)
+        {
+            Toast.makeText(super.getContext(), "Spaces are not allowed!", Toast.LENGTH_SHORT).show();
+        }
+        else if(!name.equals(username))
+        {
+            name += "#" + databaseReference.push().getKey().substring(3, 10);
+            databaseReference.child("user_account_settings").child(userID).child("name").setValue(name);
+            databaseReference.child("users").child(userID).child("name").setValue(name);
+        }
+
     }
 
     private void setProfileImage()
