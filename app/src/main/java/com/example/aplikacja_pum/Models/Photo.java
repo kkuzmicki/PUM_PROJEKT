@@ -9,7 +9,6 @@ public class Photo {
     private String imagePath;
     private String photoId;
     private String userId;
-    private int index;
 
     public Photo() {
 

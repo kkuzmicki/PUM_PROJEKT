@@ -33,6 +33,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -245,15 +246,14 @@ public class FirebaseMethods
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     //success
-                    //url Basefire
-                    Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
-
-                    Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!urlTask.isSuccessful());
+                    Uri downloadUrl = urlTask.getResult();
 
                     //dodanie informacji o zdj do bazy
-                    addPhotoToDatabase(title, firebaseUri.toString());
+                    addPhotoToDatabase(title, downloadUrl.toString());
 
-                    setProfilePhoto(firebaseUri.toString());
+                    setProfilePhoto(downloadUrl.toString());
 
                 }
             }).addOnFailureListener(new OnFailureListener() {

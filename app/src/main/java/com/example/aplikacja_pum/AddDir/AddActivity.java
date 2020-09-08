@@ -59,7 +59,7 @@ public class AddActivity extends AppCompatActivity
 
         tabLayout.getTabAt(0).setText(getString(R.string.gallery));
         //tabLayout.getTabAt(1).setText("Camera");
-
+        /*
         FilePaths paths = new FilePaths();
 
         File fileCamera = new File(paths.CAMERA);
@@ -69,6 +69,8 @@ public class AddActivity extends AppCompatActivity
             Intent intent = new Intent(AddActivity.this, CreateActivity.class);
             startActivity(intent);
         }
+
+         */
     }
 
 
