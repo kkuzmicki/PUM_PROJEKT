@@ -111,7 +111,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:minWidth="300dp"
-            android:minHeight="500dp"
+            android:minHeight="350dp"
             />
 
         <TextView

@@ -16,6 +16,7 @@ import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.example.aplikacja_pum.Models.UserInfo;
+import com.example.aplikacja_pum.Profil.AccountSettingsActivity;
 import com.example.aplikacja_pum.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -252,6 +253,8 @@ public class FirebaseMethods
                     //dodanie informacji o zdj do bazy
                     addPhotoToDatabase(title, firebaseUri.toString());
 
+                    setProfilePhoto(firebaseUri.toString());
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -303,6 +306,7 @@ public class FirebaseMethods
 
         databaseReference.child(context.getString(R.string.photos))
                 .child(newPhotoKey).setValue(photo);
+
     }
 
     private String getTime() {
