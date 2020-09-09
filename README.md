@@ -1,5 +1,5 @@
 # PUM_PROJEKT
 
 przykładowy użytkownik:
-jan@op.pl
+kkuzmicki@wp.pl
 qwerty
