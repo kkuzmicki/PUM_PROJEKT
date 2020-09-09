@@ -101,9 +101,7 @@ public class RankingActivity extends AppCompatActivity
                     photos.add(singleSnapshot.getValue(Photo.class));
                 }
 
-                //ładowanie szczegolow
-                String tags = photos.get(index[0]).getTags();
-                title.setText(tags);
+
                 ArrayList<String> imgUrls = new ArrayList<String>();
                 for (int i = 0; i < photos.size(); i++) {
                     imgUrls.add(photos.get(i).getImagePath());
@@ -117,6 +115,10 @@ public class RankingActivity extends AppCompatActivity
 
                 UniversalImageLoader.setImage(imgUrls.get(index[0]),downloadIMG,null,"");
                 time.setText(photos.get(index[0]).getDataCreated());
+
+                //ładowanie szczegolow
+                String tags = photos.get(index[0]).getTags();
+                title.setText(tags);
             }
 
 

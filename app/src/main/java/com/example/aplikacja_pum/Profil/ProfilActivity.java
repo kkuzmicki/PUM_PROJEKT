@@ -51,11 +51,12 @@ public class ProfilActivity extends AppCompatActivity
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
-    TextView description;
-    TextView display_name;
-    TextView textViewPosts;
-    TextView textViewFollowers;
-    TextView textViewFollowings;
+    private TextView description;
+    private TextView display_name;
+    private TextView textViewPosts;
+    private TextView textViewFollowers;
+    private TextView textViewFollowings;
+    private TextView profileName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -113,6 +114,9 @@ public class ProfilActivity extends AppCompatActivity
 
                 textViewFollowings = findViewById(R.id.textViewFollowings);
                 textViewFollowings.setText(Long.toString(userInfo.getUserAccountSettings().getFollowing()));
+
+                profileName = (TextView) findViewById(R.id.profileName);
+                profileName.setText(usernameString);
 
                 if(userInfo.getUserAccountSettings().getAvatar().isEmpty()){
                     UniversalImageLoader.setImage("https://www.google.pl/search?q=brak+zdj%C4%99cia&sxsrf=ALeKk02LSZoExK6u75370cHhEQC9AOEMYA:1599657985446&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiD7O-vltzrAhXGlIsKHezZDJ4Q_AUoAXoECA0QAw&biw=1023&bih=740&dpr=1.25#imgrc=6GaYxqHRw9gTqM", profilePhoto, mProgressBar, "");
