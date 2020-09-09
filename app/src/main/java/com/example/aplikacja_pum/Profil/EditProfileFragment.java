@@ -30,6 +30,7 @@ import com.example.aplikacja_pum.Utils.CountryItem;
 import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.example.aplikacja_pum.Utils.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -206,9 +207,44 @@ public class EditProfileFragment extends Fragment
 
     private void setProfileImage()
     {
-        Log.d(TAG, "setProfileImage: setting profile image.");
-        String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
-        UniversalImageLoader.setImage(imgURL, mProfilePhoto, null, "https://");
+        mAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+
+            if(user != null)
+            {
+                Log.d(TAG, "user not null");
+            }
+            else
+            {
+                Log.d(TAG, "user null");
+            }
+        };
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                UserInfo userInfo = firebaseMethods.getUserInfo(snapshot);
+
+                if(userInfo.getUserAccountSettings().getAvatar().isEmpty()){
+                    UniversalImageLoader.setImage("https://www.google.pl/search?q=brak+zdj%C4%99cia&sxsrf=ALeKk02LSZoExK6u75370cHhEQC9AOEMYA:1599657985446&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiD7O-vltzrAhXGlIsKHezZDJ4Q_AUoAXoECA0QAw&biw=1023&bih=740&dpr=1.25#imgrc=6GaYxqHRw9gTqM", mProfilePhoto, null, "");
+                }else {
+                    UniversalImageLoader.setImage(userInfo.getUserAccountSettings().getAvatar(), mProfilePhoto, null, "");
+                }
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void initList(){
