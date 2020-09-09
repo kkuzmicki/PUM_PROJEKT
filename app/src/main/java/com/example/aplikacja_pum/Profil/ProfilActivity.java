@@ -50,6 +50,7 @@ public class ProfilActivity extends AppCompatActivity
     TextView textViewPosts;
     TextView textViewFollowers;
     TextView textViewFollowings;
+    TextView nationalityTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -77,7 +78,7 @@ public class ProfilActivity extends AppCompatActivity
 
             if(user != null)
             {
-
+                Log.d(TAG, "user not null");
             }
             else
             {
@@ -107,6 +108,9 @@ public class ProfilActivity extends AppCompatActivity
 
                 textViewFollowings = findViewById(R.id.textViewFollowings);
                 textViewFollowings.setText(Long.toString(userInfo.getUserAccountSettings().getFollowing()));
+
+                nationalityTV = findViewById(R.id.nationalityTV);
+                nationalityTV.setText("Nationality: " + userInfo.getUserAccountSettings().getNationality());
             }
 
             @Override

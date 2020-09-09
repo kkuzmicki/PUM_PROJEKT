@@ -171,7 +171,7 @@ public class FirebaseMethods
             .child(userID)
             .setValue(user);
 
-        UserAccountSettings settings = new UserAccountSettings("", "", 0, 0, name, 0);
+        UserAccountSettings settings = new UserAccountSettings("", "", 0, 0, name, 0, "PL");
 
         databaseReference.child("user_account_settings")
                 .child(userID)
@@ -339,6 +339,7 @@ public class FirebaseMethods
                 userAccountSettings.setPosts(ds.child(userID).getValue(UserAccountSettings.class).getPosts());
                 userAccountSettings.setFollowers(ds.child(userID).getValue(UserAccountSettings.class).getFollowers());
                 userAccountSettings.setFollowing(ds.child(userID).getValue(UserAccountSettings.class).getFollowing());
+                userAccountSettings.setNationality(ds.child(userID).getValue(UserAccountSettings.class).getNationality());
             }
 
             if(ds.getKey().equals("users"))

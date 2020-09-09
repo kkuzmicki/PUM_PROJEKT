@@ -26,6 +26,16 @@
                 tools:ignore="InvalidId" />
 
 
+            <ImageView
+                android:id="@+id/randomPhotoIV"
+                android:layout_width="152dp"
+                android:layout_height="155dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="226dp"
+                android:layout_marginEnd="175dp"
+                app:srcCompat="@android:mipmap/sym_def_app_icon" />
+
         </RelativeLayout>
 
         <!-- Middle section (body) -->

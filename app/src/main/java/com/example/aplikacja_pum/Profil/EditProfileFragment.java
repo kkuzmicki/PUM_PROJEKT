@@ -63,6 +63,8 @@ public class EditProfileFragment extends Fragment
     private String userID;
     String username;
 
+    Spinner spinnerCountries;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
@@ -87,9 +89,10 @@ public class EditProfileFragment extends Fragment
         setupFirebase();
         init();
 
-        Spinner spinnerCountries = (Spinner) view.findViewById(R.id.spnCountry);
+        spinnerCountries = (Spinner) view.findViewById(R.id.spnCountry);
         mAdapter = new CountryAdapter(this.getActivity(), mCountryList);
         spinnerCountries.setAdapter(mAdapter);
+
         spinnerCountries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -137,6 +140,20 @@ public class EditProfileFragment extends Fragment
                 Log.d(TAG, "TEST ZDANY");
 
                 UserInfo userInfo = firebaseMethods.getUserInfo(snapshot);
+
+                switch(userInfo.getUserAccountSettings().getNationality())
+                {
+                    case "PL":
+                    default:
+                        spinnerCountries.setSelection(0);
+                        break;
+                    case "UK":
+                        spinnerCountries.setSelection(1);
+                        break;
+                    case "DE":
+                        spinnerCountries.setSelection(2);
+                        break;
+                }
 
                 username = userInfo.getUserAccountSettings().getName();
                 username = username.substring(0, username.indexOf("#"));
@@ -187,13 +204,34 @@ public class EditProfileFragment extends Fragment
         });
 
         databaseReference.child("user_account_settings").child(userID).child("description").setValue(description);
+
+        switch(spinnerCountries.getSelectedItemPosition())
+        {
+            case 0:
+                databaseReference.child("user_account_settings").child(userID).child("nationality").setValue("PL");
+                break;
+            case 1:
+                databaseReference.child("user_account_settings").child(userID).child("nationality").setValue("UK");
+                break;
+            case 2:
+                databaseReference.child("user_account_settings").child(userID).child("nationality").setValue("DE");
+                break;
+        }
+
         if(name.indexOf('#') != -1)
         {
             Toast.makeText(super.getContext(), "'#' symbol is not allowed!", Toast.LENGTH_SHORT).show();
+            return;
         }
         else if(name.indexOf(' ') != -1)
         {
             Toast.makeText(super.getContext(), "Spaces are not allowed!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        else if(name.isEmpty())
+        {
+            Toast.makeText(super.getContext(), "You must type some name!", Toast.LENGTH_SHORT).show();
+            return;
         }
         else if(!name.equals(username))
         {
@@ -202,13 +240,17 @@ public class EditProfileFragment extends Fragment
             databaseReference.child("users").child(userID).child("name").setValue(name);
         }
 
+        Toast.makeText(super.getContext(), "Changes saved!", Toast.LENGTH_SHORT).show();
     }
 
     private void setProfileImage()
     {
         Log.d(TAG, "setProfileImage: setting profile image.");
-        String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
-        UniversalImageLoader.setImage(imgURL, mProfilePhoto, null, "https://");
+        //String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
+        //UniversalImageLoader.setImage(imgURL, mProfilePhoto, null, "https://");
+
+        String imgURL = "com.google.android.gms.tasks.zzu@deb9ac2";
+        UniversalImageLoader.setImage(imgURL, mProfilePhoto, null, null);
     }
 
     private void initList(){

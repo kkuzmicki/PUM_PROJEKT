@@ -8,20 +8,29 @@ public class UserAccountSettings
     private long following;
     private String name;
     private long posts;
+    private String nationality;
 
     public UserAccountSettings()
     {
 
     }
 
-    public UserAccountSettings(String avatar, String description, long followers, long following, String name, long posts)
-    {
+    public UserAccountSettings(String avatar, String description, long followers, long following, String name, long posts, String nationality) {
         this.avatar = avatar;
         this.description = description;
         this.followers = followers;
         this.following = following;
         this.name = name;
         this.posts = posts;
+        this.nationality = nationality;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public String getAvatar() {
