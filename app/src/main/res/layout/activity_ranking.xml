@@ -17,9 +17,14 @@
         <RelativeLayout
             android:id="@+id/relLayout1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingBottom="60dp"
+            >
 
-            <include layout="@layout/layout_top_menu" />
+            <include layout="@layout/layout_top_menu"
+                android:id="@+id/topMenu"
+                tools:ignore="InvalidId" />
+
 
         </RelativeLayout>
 
@@ -39,9 +44,7 @@
             android:layout_height="match_parent">
             <!-- bottom navigation -->
             <include
-                layout="@layout/layout_bottom_menu"
-                android:layout_width="69dp"
-                android:layout_height="118dp" />
+                layout="@layout/layout_bottom_menu" />
 
 
         </RelativeLayout>

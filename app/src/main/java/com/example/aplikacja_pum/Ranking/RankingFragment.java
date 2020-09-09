@@ -27,7 +27,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+/*
 public class RankingFragment extends Fragment {
     //firebase
     private FirebaseAuth mAuth;
@@ -89,3 +89,6 @@ public class RankingFragment extends Fragment {
 
     }
 }
+
+
+ */
