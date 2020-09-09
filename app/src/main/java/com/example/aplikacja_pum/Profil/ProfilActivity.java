@@ -57,6 +57,7 @@ public class ProfilActivity extends AppCompatActivity
     private TextView textViewFollowers;
     private TextView textViewFollowings;
     private TextView profileName;
+    private TextView nationalityTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -70,7 +71,7 @@ public class ProfilActivity extends AppCompatActivity
         setupActivityWidgets();
         //setProfileImage();
         firebaseMethods = new FirebaseMethods(this);
-
+        nationalityTV = findViewById(R.id.nationalityTV);
         setupFirebaseAuth();
     }
 
@@ -118,14 +119,13 @@ public class ProfilActivity extends AppCompatActivity
                 profileName = (TextView) findViewById(R.id.profileName);
                 profileName.setText(usernameString);
 
+                nationalityTV.setText("Nationality: " + userInfo.getUserAccountSettings().getNationality());
+
                 if(userInfo.getUserAccountSettings().getAvatar().isEmpty()){
                     UniversalImageLoader.setImage("https://www.google.pl/search?q=brak+zdj%C4%99cia&sxsrf=ALeKk02LSZoExK6u75370cHhEQC9AOEMYA:1599657985446&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiD7O-vltzrAhXGlIsKHezZDJ4Q_AUoAXoECA0QAw&biw=1023&bih=740&dpr=1.25#imgrc=6GaYxqHRw9gTqM", profilePhoto, mProgressBar, "");
                 }else {
                     UniversalImageLoader.setImage(userInfo.getUserAccountSettings().getAvatar(), profilePhoto, mProgressBar, "");
                 }
-
-
-
             }
 
             @Override
