@@ -71,26 +71,21 @@ public class EditProfileFragment extends Fragment
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view = inflater.inflate(R.layout.fragment_editprofile, container, false);
-        mProfilePhoto = (ImageView) view.findViewById(R.id.profile_photo);
+        mProfilePhoto = view.findViewById(R.id.profile_photo);
 
         usernameET = view.findViewById(R.id.username);
         descriptionET = view.findViewById(R.id.description);
         emailET = view.findViewById(R.id.email);
         saveSettingsButton = view.findViewById(R.id.saveSettingsButton);
 
-        saveSettingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveProfileSettings();
-            }
-        });
+        saveSettingsButton.setOnClickListener(v -> saveProfileSettings());
 
         setProfileImage();
         initList();
         setupFirebase();
         init();
 
-        spinnerCountries = (Spinner) view.findViewById(R.id.spnCountry);
+        spinnerCountries = view.findViewById(R.id.spnCountry);
         mAdapter = new CountryAdapter(this.getActivity(), mCountryList);
         spinnerCountries.setAdapter(mAdapter);
         spinnerCountries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -106,25 +101,17 @@ public class EditProfileFragment extends Fragment
             }
         });
 
-        ImageView backArrow = (ImageView) view.findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: navigating back to ProfileActivity");
-                getActivity().finish();
-            }
+        ImageView backArrow = view.findViewById(R.id.backArrow);
+        backArrow.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: navigating back to ProfileActivity");
+            getActivity().finish();
         });
 
-        changeProfilePhoto = (TextView) view.findViewById(R.id.changeProfilePhoto);
-        changeProfilePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent  = new Intent(getActivity(), AddActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                getActivity().startActivity(intent);
-            }
+        changeProfilePhoto = view.findViewById(R.id.changeProfilePhoto);
+        changeProfilePhoto.setOnClickListener(v -> {
+            Intent intent  = new Intent(getActivity(), AddActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(intent);
         });
 
         firebaseMethods = new FirebaseMethods(super.getContext());

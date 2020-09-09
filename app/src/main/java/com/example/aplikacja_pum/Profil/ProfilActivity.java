@@ -116,7 +116,7 @@ public class ProfilActivity extends AppCompatActivity
                 textViewFollowings = findViewById(R.id.textViewFollowings);
                 textViewFollowings.setText(Long.toString(userInfo.getUserAccountSettings().getFollowing()));
 
-                profileName = (TextView) findViewById(R.id.profileName);
+                profileName = findViewById(R.id.profileName);
                 profileName.setText(usernameString);
 
                 nationalityTV.setText("Nationality: " + userInfo.getUserAccountSettings().getNationality());
@@ -172,46 +172,30 @@ public class ProfilActivity extends AppCompatActivity
  */
     private void setupActivityWidgets()
     {
-        mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);
+        mProgressBar = findViewById(R.id.profileProgressBar);
         mProgressBar.setVisibility(View.GONE);
-        profilePhoto = (ImageView) findViewById(R.id.profile_photo);
-
-
+        profilePhoto = findViewById(R.id.profile_photo);
     }
-
 
     private void setupIntent()
     {
 
-        ImageView profileMenu = (ImageView) findViewById(R.id.settingsMenu);
-        profileMenu.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: navigating to account settings.");
-                Intent intent = new Intent(mContext, AccountSettingsActivity.class);
-                startActivity(intent);
-            }
+        ImageView profileMenu = findViewById(R.id.settingsMenu);
+        profileMenu.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: navigating to account settings.");
+            Intent intent = new Intent(mContext, AccountSettingsActivity.class);
+            startActivity(intent);
         });
 
-        ImageView profileImages = (ImageView) findViewById(R.id.profilePhotoGridView);
-        profileImages.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: navigating to profile images.");
-                Intent intent = new Intent(mContext, ProfilePhotosActivity.class);
-                startActivity(intent);
-            }
+        ImageView profileImages = findViewById(R.id.profilePhotoGridView);
+        profileImages.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: navigating to profile images.");
+            Intent intent = new Intent(mContext, ProfilePhotosActivity.class);
+            startActivity(intent);
         });
     }
 
-
-
-
-    //nawigacja dolna
+    // nawigacja dolna
     private void setupBottomNavigationView()
     {
         Log.d(TAG, "setupBottomNavigationView: setting up BottomNavigationView");

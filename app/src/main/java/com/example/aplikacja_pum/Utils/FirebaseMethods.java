@@ -247,26 +247,20 @@ public class FirebaseMethods
 
             uploadTask = storageReference.putBytes(bytes);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //success
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                //success
+                Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!urlTask.isSuccessful());
+                Uri downloadUrl = urlTask.getResult();
 
-                    //dodanie informacji o zdj do bazy
-                    addPhotoToDatabase(title, downloadUrl.toString());
+                //dodanie informacji o zdj do bazy
+                addPhotoToDatabase(title, downloadUrl.toString());
 
-                    setProfilePhoto(downloadUrl.toString());
+                setProfilePhoto(downloadUrl.toString());
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //fail
-                    Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
-                }
+            }).addOnFailureListener(e -> {
+                //fail
+                Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
             }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
