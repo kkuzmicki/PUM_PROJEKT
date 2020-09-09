@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aplikacja_pum.Models.Photo;
+import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.example.aplikacja_pum.Models.UserInfo;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
@@ -25,8 +27,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ProfilActivity extends AppCompatActivity
@@ -50,7 +56,6 @@ public class ProfilActivity extends AppCompatActivity
     TextView textViewPosts;
     TextView textViewFollowers;
     TextView textViewFollowings;
-    TextView nationalityTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -62,7 +67,7 @@ public class ProfilActivity extends AppCompatActivity
         setupBottomNavigationView();
         setupIntent();
         setupActivityWidgets();
-        setProfileImage();
+        //setProfileImage();
         firebaseMethods = new FirebaseMethods(this);
 
         setupFirebaseAuth();
@@ -78,7 +83,7 @@ public class ProfilActivity extends AppCompatActivity
 
             if(user != null)
             {
-                Log.d(TAG, "user not null");
+
             }
             else
             {
@@ -109,8 +114,47 @@ public class ProfilActivity extends AppCompatActivity
                 textViewFollowings = findViewById(R.id.textViewFollowings);
                 textViewFollowings.setText(Long.toString(userInfo.getUserAccountSettings().getFollowing()));
 
-                nationalityTV = findViewById(R.id.nationalityTV);
-                nationalityTV.setText("Nationality: " + userInfo.getUserAccountSettings().getNationality());
+                if(userInfo.getUserAccountSettings().getAvatar().isEmpty()){
+                    UniversalImageLoader.setImage("https://www.google.pl/search?q=brak+zdj%C4%99cia&sxsrf=ALeKk02LSZoExK6u75370cHhEQC9AOEMYA:1599657985446&source=lnms&tbm=isch&sa=X&ved=2ahUKEwiD7O-vltzrAhXGlIsKHezZDJ4Q_AUoAXoECA0QAw&biw=1023&bih=740&dpr=1.25#imgrc=6GaYxqHRw9gTqM", profilePhoto, mProgressBar, "");
+                }else {
+                    UniversalImageLoader.setImage(userInfo.getUserAccountSettings().getAvatar(), profilePhoto, mProgressBar, "");
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+/*
+    private void setProfileImage()
+    {
+        Log.d(TAG, "setProfileImage: setting profile photo.");
+
+
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child("user_account_settings")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            List <UserAccountSettings> userAccountSettings;
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
+                    userAccountSettings = new ArrayList<>();
+                    userAccountSettings.add(singleSnapshot.getValue(UserAccountSettings.class));
+                }
+                if(userAccountSettings.get(0).getAvatar().isEmpty()){
+                    //UniversalImageLoader.setImage(userAccountSettings.get(0).getAvatar(), profilePhoto, mProgressBar, ""); //zmienic url
+                }else {
+                    UniversalImageLoader.setImage(userAccountSettings.get(0).getAvatar(), profilePhoto, mProgressBar, ""); //zmienic url
+                }
             }
 
             @Override
@@ -120,13 +164,8 @@ public class ProfilActivity extends AppCompatActivity
         });
     }
 
-    private void setProfileImage()
-    {
-        Log.d(TAG, "setProfileImage: setting profile photo.");
-        String imgURL = "i0.wp.com/www.apkspree.com/wp-content/uploads/2019/11/com.TailOfTales.WaifuOrLaifu-logo.png?fit=512%2C512&ssl=1";
-        UniversalImageLoader.setImage(imgURL, profilePhoto, mProgressBar, "https://");
-    }
 
+ */
     private void setupActivityWidgets()
     {
         mProgressBar = (ProgressBar) findViewById(R.id.profileProgressBar);

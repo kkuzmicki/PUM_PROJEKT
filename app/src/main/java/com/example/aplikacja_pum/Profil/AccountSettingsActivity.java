@@ -110,6 +110,7 @@ public class AccountSettingsActivity extends AppCompatActivity
             if(intent.getStringExtra(getString(R.string.return_to_fragment)).equals(getString(R.string.edit_profile))){
                 FirebaseMethods firebaseMethods = new FirebaseMethods(AccountSettingsActivity.this);
                 firebaseMethods.uploadNewPhoto(getString(R.string.profile_photo), null, 0 , intent.getStringExtra(getString(R.string.selected_image)));
+                //zmienic na path serwerowa
             }
         }
     }

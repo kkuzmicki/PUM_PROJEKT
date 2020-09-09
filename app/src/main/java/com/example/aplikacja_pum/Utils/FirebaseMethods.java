@@ -199,14 +199,15 @@ public class FirebaseMethods
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     //success
-                    //url Basefire
-                    Task<Uri> firebaseUri = taskSnapshot.getStorage().getDownloadUrl();
+                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!urlTask.isSuccessful());
+                    Uri downloadUrl = urlTask.getResult();
 
                     Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
 
 
                     //dodanie z profilu
-                    setProfilePhoto(imgUrl.toString());
+                    setProfilePhoto(downloadUrl.toString());
 
                 }
             }).addOnFailureListener(new OnFailureListener() {
@@ -288,7 +289,7 @@ public class FirebaseMethods
 
         databaseReference.child(context.getString(R.string.user_account_settings))
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child(context.getString(R.string.profile_photo))
+                .child("avatar")
                 .setValue(url);
 
     }
