@@ -271,7 +271,7 @@ public class FirebaseMethods
 
 
     private String getTime() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.GERMANY);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss' '", Locale.GERMANY);
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Warsaw"));
         return simpleDateFormat.format(new Date());
     }

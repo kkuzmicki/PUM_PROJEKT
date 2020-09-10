@@ -69,10 +69,10 @@ public class ProfilActivity extends AppCompatActivity
         setupBottomNavigationView();
         setupIntent();
         setupActivityWidgets();
-        //setProfileImage();
         firebaseMethods = new FirebaseMethods(this);
         nationalityTV = findViewById(R.id.nationalityTV);
         setupFirebaseAuth();
+        connectFireBase();
     }
 
     private void setupFirebaseAuth()
@@ -133,6 +133,38 @@ public class ProfilActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void connectFireBase(){
+        final ArrayList<Photo> photos = new ArrayList<>();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child("user_photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
+                    photos.add(singleSnapshot.getValue(Photo.class));
+                    if(photos.size() != 0){
+                        setPosts(photos.size());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void setPosts(int count){
+
+        databaseReference.child("user_account_settings")
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child("posts")
+                .setValue(count);
+
     }
 /*
     private void setProfileImage()

@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity
                 ArrayList<String> imgUrls = new ArrayList<String>();
                 for (int i = 0; i < photos.size(); i++) {
                     //imgUrls.add(photos.get(i).getImagePath());
-                    cardViews.add(new CardView(photos.get(i).getImagePath(), photos.get(i).getDataCreated(), photos.get(i).getTitle()));
+                    int tmp = photos.size() - 1 - i;
+                    cardViews.add(new CardView(photos.get(tmp).getImagePath(), photos.get(tmp).getDataCreated(), photos.get(tmp).getTitle()));
                 }
                 recyclerView = findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
