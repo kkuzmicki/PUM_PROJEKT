@@ -21,9 +21,7 @@ import java.util.ArrayList;
 
 public class ProfilePhotosActivity extends AppCompatActivity
 {
-
     private static final String TAG = "ProfilePhotosActivity";
-    private static final int ActivityNumber = 4;
     private Context mContext;
     private static final int NUM_GRID_COLUMNS = 2;
 
@@ -40,17 +38,11 @@ public class ProfilePhotosActivity extends AppCompatActivity
 
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
-                finish();
-            }
+        backArrow.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
+            finish();
         });
     }
-
 
     private void tempGridSetup()
     {

@@ -48,23 +48,20 @@ public class SignOutFragment extends Fragment
 
         setupFirebaseAuth();
 
-        buttonSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //ukrycie przycisku i info
-                textViewSignOut.setVisibility(View.GONE);
-                buttonSignOut.setVisibility(View.GONE);
+        buttonSignOut.setOnClickListener(v -> {
+            //ukrycie przycisku i info
+            textViewSignOut.setVisibility(View.GONE);
+            buttonSignOut.setVisibility(View.GONE);
 
-                //pokazanie bara oraz info
-                progressBar.setVisibility(View.VISIBLE);
-                textViewSignOutBar.setVisibility(View.VISIBLE);
+            //pokazanie bara oraz info
+            progressBar.setVisibility(View.VISIBLE);
+            textViewSignOutBar.setVisibility(View.VISIBLE);
 
-                //poprawiono wylogowanie do activity z uzyciem firebase
-                mAuth.signOut();
+            //poprawiono wylogowanie do activity z uzyciem firebase
+            mAuth.signOut();
 
-                //kończy aktualne acitivity
-                getActivity().finish();
-            }
+            //kończy aktualne acitivity
+            getActivity().finish();
         });
 
         return view;
@@ -75,24 +72,18 @@ public class SignOutFragment extends Fragment
     {
         Log.d(TAG, "ustawienie autoryzacji Firebase");
         mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener()
-
-        {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth)
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if(user != null)
             {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if(user != null)
-                {
-                    Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
-                }
-                else
-                {
-                    //wylogowuje do activity login
-                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                }
+                Log.d(TAG, "onAuthStateChanged: signed in: " + user.getUid());
+            }
+            else
+            {
+                //wylogowuje do activity login
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         };
     }
