@@ -55,7 +55,7 @@ public class CardViewAdapter extends RecyclerView.Adapter<CardViewAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CardView cardView =  cardViews.get(position);
 
-       // UniversalImageLoader.setImage(cardView.getUrl(),holder.downloadIMG,null,"");
+        UniversalImageLoader.setImage(cardView.getUrl(),holder.downloadIMG,null,"");
         holder.time.setText(cardView.getTime());
         holder.title.setText(cardView.getTitle());
         Log.d("sad",cardView.getUrl());
