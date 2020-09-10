@@ -8,16 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.aplikacja_pum.Models.Photo;
+import com.example.aplikacja_pum.Models.User;
+import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
 import com.example.aplikacja_pum.Utils.GridImageAdapter;
 import com.example.aplikacja_pum.Utils.UniversalImageLoader;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +39,10 @@ public class ProfilePhotosActivity extends AppCompatActivity
     private static final String TAG = "ProfilePhotosActivity";
     private Context mContext;
     private static final int NUM_GRID_COLUMNS = 2;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private TextView profilePictures;
+    private DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)
@@ -44,7 +53,8 @@ public class ProfilePhotosActivity extends AppCompatActivity
         Log.d(TAG, "onCreate: started.");
 
         setUpBottomNavigationViev();
-        //tempGridSetup();
+        tempGridSetup();
+        profilePictures = (TextView) findViewById(R.id.profilePictures);
 
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
@@ -56,28 +66,32 @@ public class ProfilePhotosActivity extends AppCompatActivity
 
     private void tempGridSetup()
     {
-        final ArrayList<Photo> photos = new ArrayList<>();
+        ArrayList<Photo> photos = new ArrayList<>();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
 
         Query query = reference
-                .child("user_photos");
+                .child("user_photos").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
-                    photos.add(singleSnapshot.getValue(Photo.class));
+                try {
+                    for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
+                        photos.add(singleSnapshot.getValue(Photo.class));
+                    }
+
+                    ArrayList<String> url = new ArrayList<>();
+
+                    for (int i = 0; i < photos.size(); i++) {
+                        url.add(photos.get(i).getImagePath());
+                    }
+
+                    setupImageGrid(url);
+                    Log.d("test: ", url.get(0));
+                }catch (NullPointerException e){
+                    Log.d("Error: ", e.getMessage());
                 }
-
-                ArrayList<String> url = new ArrayList<>();
-
-                for (int i = 0; i < photos.size(); i++) {
-                    //url.add(photos.get(i).getImagePath());
-                }
-
-                //setupImageGrid(url);
-                 Log.d("test: ", url.get(0));
             }
 
             @Override
@@ -86,7 +100,7 @@ public class ProfilePhotosActivity extends AppCompatActivity
             }
         });
     }
-/*
+
     private void setupImageGrid(ArrayList<String> imgURLs) {
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
@@ -98,7 +112,7 @@ public class ProfilePhotosActivity extends AppCompatActivity
         GridImageAdapter adapter = new GridImageAdapter(mContext, R.layout.layout_grid_imageview, "", imgURLs);
         gridView.setAdapter(adapter);
     }
-*/
+
     private void setUpBottomNavigationViev()
     {
         Log.d(TAG,"konfiguracjaNawigiDol");
@@ -109,4 +123,5 @@ public class ProfilePhotosActivity extends AppCompatActivity
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
     }
+
 }
