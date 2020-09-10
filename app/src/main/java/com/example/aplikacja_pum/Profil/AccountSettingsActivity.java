@@ -32,7 +32,6 @@ public class AccountSettingsActivity extends AppCompatActivity
 {
 
     private static final String TAG = "AccountSettingsActivity";
-    private static final int ActivityNumber = 4;
 
     private Context mContext;
 
@@ -56,13 +55,9 @@ public class AccountSettingsActivity extends AppCompatActivity
         getIncomingIntent();
 
         ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
-        backArrow.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
-                finish();
-            }
+        backArrow.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
+            finish();
         });
     }
 
@@ -93,13 +88,9 @@ public class AccountSettingsActivity extends AppCompatActivity
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, options);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemClick: navigating to fragment number #: " + position);
-                setViewPager(position);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Log.d(TAG, "onItemClick: navigating to fragment number #: " + position);
+            setViewPager(position);
         });
     }
 

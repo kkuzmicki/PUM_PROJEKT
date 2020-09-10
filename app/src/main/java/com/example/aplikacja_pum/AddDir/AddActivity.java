@@ -1,6 +1,5 @@
 package com.example.aplikacja_pum.AddDir;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,14 +8,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.aplikacja_pum.Create.CreateActivity;
 import com.example.aplikacja_pum.R;
-import com.example.aplikacja_pum.Utils.FilePaths;
 import com.example.aplikacja_pum.Utils.Permissions;
 import com.example.aplikacja_pum.Utils.SectionsStatePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.File;
+import java.util.Objects;
 
 public class AddActivity extends AppCompatActivity
 {
@@ -57,7 +54,7 @@ public class AddActivity extends AppCompatActivity
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setText(getString(R.string.gallery));
+        Objects.requireNonNull(tabLayout.getTabAt(0)).setText(getString(R.string.gallery));
         //tabLayout.getTabAt(1).setText("Camera");
         /*
         FilePaths paths = new FilePaths();
@@ -73,7 +70,6 @@ public class AddActivity extends AppCompatActivity
          */
     }
 
-
     public void verifyPermissions(String[] permissions){
         Log.d(TAG, "verifyPermissions: verifying permissions.");
 
@@ -87,9 +83,8 @@ public class AddActivity extends AppCompatActivity
     public boolean checkPermissionsArray(String[] permissions){
         Log.d(TAG, "checkPermissionsArray: checking permissions array.");
 
-        for(int i = 0; i< permissions.length; i++){
-            String check = permissions[i];
-            if(!checkPermissions(check)){
+        for (String check : permissions) {
+            if (!checkPermissions(check)) {
                 return false;
             }
         }

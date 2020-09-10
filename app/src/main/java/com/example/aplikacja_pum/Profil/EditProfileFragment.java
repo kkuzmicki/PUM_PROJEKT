@@ -1,16 +1,12 @@
 package com.example.aplikacja_pum.Profil;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -36,9 +32,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EditProfileFragment extends Fragment
 {
@@ -161,7 +157,7 @@ public class EditProfileFragment extends Fragment
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
-        userID = mAuth.getCurrentUser().getUid();
+        userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
     }
 
     private void saveProfileSettings()
@@ -177,7 +173,7 @@ public class EditProfileFragment extends Fragment
                 {
                     if(ds.getKey().equals(userID))
                     {
-                        user.setName(ds.getValue(User.class).getName());
+                        user.setName(Objects.requireNonNull(ds.getValue(User.class)).getName());
                     }
                 }
             }
@@ -218,7 +214,7 @@ public class EditProfileFragment extends Fragment
         }
         else if(!name.equals(username))
         {
-            name += "#" + databaseReference.push().getKey().substring(3, 10);
+            name += "#" + Objects.requireNonNull(databaseReference.push().getKey()).substring(3, 10);
             databaseReference.child("user_account_settings").child(userID).child("name").setValue(name);
             databaseReference.child("users").child(userID).child("name").setValue(name);
         }

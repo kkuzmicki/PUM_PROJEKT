@@ -1,44 +1,30 @@
 package com.example.aplikacja_pum.Utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.example.aplikacja_pum.AddDir.AddActivity;
-import com.example.aplikacja_pum.AddDir.AddTitle;
-import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
 import com.example.aplikacja_pum.Models.UserInfo;
-import com.example.aplikacja_pum.Profil.AccountSettingsActivity;
 import com.example.aplikacja_pum.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.TimeZone;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -48,8 +34,6 @@ public class FirebaseMethods
     private static final String TAG = "FirebaseMethods";
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private StorageReference mStorageReference ;
 
@@ -62,7 +46,8 @@ public class FirebaseMethods
     public FirebaseMethods(Context context)
     {
         mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        //private FirebaseAuth.AuthStateListener mAuthListener;
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
 
         mStorageReference = FirebaseStorage.getInstance().getReference();
@@ -79,9 +64,9 @@ public class FirebaseMethods
     public int getImageCount(DataSnapshot dataSnapshot){
         int count = 0;
 
-        for (DataSnapshot ds: dataSnapshot
+        for (DataSnapshot ignored : dataSnapshot
                 .child(context.getString(R.string.user_photos))
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())
                 .getChildren()){
                     count ++;
         }
@@ -96,52 +81,42 @@ public class FirebaseMethods
         if(user != null)
         {
             user.sendEmailVerification()
-                    .addOnCompleteListener(new OnCompleteListener<Void>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task)
+                    .addOnCompleteListener(task -> {
+                        if(task.isSuccessful())
                         {
-                            if(task.isSuccessful())
-                            {
-
-                            }
-                            else
-                            {
-                                Toast.makeText(context, "nie udalo sie wyslac maila", LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(context, "Verification email has been sent!", LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(context, "nie udalo sie wyslac maila", LENGTH_SHORT).show();
                         }
                     });
         }
     }
 
-    public void registerNewEmail(final String email, String password, final String name)
+    public void registerNewEmail(final String email, String password)
     {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>()
-                {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
                     {
-                        if (task.isSuccessful())
-                        {
-                            sendEmail();
+                        sendEmail();
 
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "createUserWithEmail:success");
-                            userID = mAuth.getCurrentUser().getUid();
-                        }
-                        else
-                        {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(context, "Authentication failed.",
-                                    LENGTH_SHORT).show();
-                        }
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "createUserWithEmail:success");
+                        userID = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+                    }
+                    else
+                    {
+                        // If sign in fails, display a message to the user.
+                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(context, "Authentication failed.",
+                                LENGTH_SHORT).show();
                     }
                 });
     }
 
-    public boolean checkIfNameExists(String name, DataSnapshot dataSnapshot)
+    /*public boolean checkIfNameExists(String name, DataSnapshot dataSnapshot)
     {
         Log.d(TAG, "checkIfNameExists: checking if " + name + " already exists.");
 
@@ -159,7 +134,7 @@ public class FirebaseMethods
         }
 
         return false;
-    }
+    }*/
 
     public void addNewUser(String email, String name)
     {
@@ -190,50 +165,39 @@ public class FirebaseMethods
             Bitmap bitmap = ConvertImage.getBitmap(imgUrl);
 
             //upload img
-            UploadTask uploadTask = null;
+            UploadTask uploadTask;
             byte[] bytes = ConvertImage.getBytesFromBitmap(bitmap, 100);
 
             uploadTask = storageReference.putBytes(bytes);
 
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //success
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
+            uploadTask.addOnSuccessListener(taskSnapshot -> {
+                //success
+                Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!urlTask.isSuccessful());
+                Uri downloadUrl = urlTask.getResult();
 
-                    Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
+                Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
 
 
-                    //dodanie z profilu
-                    setProfilePhoto(downloadUrl.toString());
+                //dodanie z profilu
+                setProfilePhoto(downloadUrl.toString());
 
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    //fail
-                    Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
-                }
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    //progress
-                    // (100 * przeslane) / calosc
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+            }).addOnFailureListener(e -> {
+                //fail
+                Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
+            }).addOnProgressListener(taskSnapshot -> {
+                //progress
+                // (100 * przeslane) / calosc
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
-                    if(progress - 15 > photoUploadProgress){
+                if(progress - 15 > photoUploadProgress){
 
-                        Toast.makeText(context, "Photo upload progress: "
-                                + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
-                        photoUploadProgress = progress;
-                    }
+                    Toast.makeText(context, "Photo upload progress: "
+                            + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
+                    photoUploadProgress = progress;
                 }
             });
-        }else
-
-        if(type.equals(context.getString(R.string.new_photo))){
+        }else if(type.equals(context.getString(R.string.new_photo))){
             //sciazka na Firebase (photos/users/userID/photoCount)
             StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
                     + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/photo" + (imageCount + 1));
@@ -261,19 +225,16 @@ public class FirebaseMethods
             }).addOnFailureListener(e -> {
                 //fail
                 Toast.makeText(context, "Photo upload failed !!!", LENGTH_SHORT).show();
-            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    //progress
-                    // (100 * przeslane) / calosc
-                    double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+            }).addOnProgressListener(taskSnapshot -> {
+                //progress
+                // (100 * przeslane) / calosc
+                double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
 
-                    if(progress - 15 > photoUploadProgress){
+                if(progress - 15 > photoUploadProgress){
 
-                        Toast.makeText(context, "Photo upload progress: "
-                                + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
-                        photoUploadProgress = progress;
-                    }
+                    Toast.makeText(context, "Photo upload progress: "
+                            + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
+                    photoUploadProgress = progress;
                 }
             });
         }
@@ -328,22 +289,22 @@ public class FirebaseMethods
             {
                 Log.d(TAG, "getUserInfo: " + ds);
 
-                userAccountSettings.setName(ds.child(userID).getValue(UserAccountSettings.class).getName());
-                userAccountSettings.setDescription(ds.child(userID).getValue(UserAccountSettings.class).getDescription());
-                userAccountSettings.setAvatar(ds.child(userID).getValue(UserAccountSettings.class).getAvatar());
-                userAccountSettings.setPosts(ds.child(userID).getValue(UserAccountSettings.class).getPosts());
-                userAccountSettings.setFollowers(ds.child(userID).getValue(UserAccountSettings.class).getFollowers());
-                userAccountSettings.setFollowing(ds.child(userID).getValue(UserAccountSettings.class).getFollowing());
-                userAccountSettings.setNationality(ds.child(userID).getValue(UserAccountSettings.class).getNationality());
+                userAccountSettings.setName(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getName());
+                userAccountSettings.setDescription(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getDescription());
+                userAccountSettings.setAvatar(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getAvatar());
+                userAccountSettings.setPosts(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getPosts());
+                userAccountSettings.setFollowers(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getFollowers());
+                userAccountSettings.setFollowing(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getFollowing());
+                userAccountSettings.setNationality(Objects.requireNonNull(ds.child(userID).getValue(UserAccountSettings.class)).getNationality());
             }
 
             if(ds.getKey().equals("users"))
             {
                 Log.d(TAG, "getUserInfo: " + ds);
 
-                user.setName(ds.child(userID).getValue(User.class).getName());
-                user.setEmail(ds.child(userID).getValue(User.class).getEmail());
-                user.setUser_id(ds.child(userID).getValue(User.class).getUser_id());
+                user.setName(Objects.requireNonNull(ds.child(userID).getValue(User.class)).getName());
+                user.setEmail(Objects.requireNonNull(ds.child(userID).getValue(User.class)).getEmail());
+                user.setUser_id(Objects.requireNonNull(ds.child(userID).getValue(User.class)).getUser_id());
             }
         }
 

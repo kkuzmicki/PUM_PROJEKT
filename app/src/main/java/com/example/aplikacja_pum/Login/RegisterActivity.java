@@ -13,7 +13,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.FirebaseMethods;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,14 +33,12 @@ public class RegisterActivity extends AppCompatActivity
     private EditText nameET;
     private EditText emailET;
     private EditText passwordET;
-    private Button registerB;
     private ProgressBar registerPB;
     private TextView loadingTV;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseMethods firebaseMethods;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
     @Override
@@ -58,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity
         nameET = findViewById(R.id.nameET);
         emailET = findViewById(R.id.emailET);
         passwordET = findViewById(R.id.passwordET);
-        registerB = findViewById(R.id.registerB);
+        Button registerB = findViewById(R.id.registerB);
         registerPB = findViewById(R.id.registerPB);
         loadingTV = findViewById(R.id.loadingTV);
 
@@ -89,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity
                 registerPB.setVisibility(View.VISIBLE);
                 loadingTV.setVisibility(View.VISIBLE);
 
-                firebaseMethods.registerNewEmail(email, password, name);
+                firebaseMethods.registerNewEmail(email, password);
             }
         });
         setupFirebaseAuth();
@@ -100,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity
     {
         Log.d(TAG, "ustawienie autoryzacji Firebase");
         mAuth = FirebaseAuth.getInstance();
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
         mAuthListener = firebaseAuth -> {
             Log.d(TAG, "onAuthStateChanged");
