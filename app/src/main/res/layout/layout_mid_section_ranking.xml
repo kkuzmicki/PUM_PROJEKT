@@ -31,17 +31,41 @@
                     android:layout_marginTop="10dp"
                     android:id="@+id/drawMem"/>
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_photo"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    app:civ_border_color="@color/black"
+                    app:civ_border_width="2dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:layout_below="@+id/drawMem"/>
+
+                <!-- dac obok zdj -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:id="@+id/nick"
+                    android:layout_alignEnd="@+id/profile_photo"
+                    android:layout_centerVertical="true"
+                    />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/downloadIMG"
                     tools:ignore="InvalidId"
-                    android:layout_below="@id/drawMem"/>
+                    android:layout_below="@id/profile_photo"/>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="like do dopracowania!!!"
+                    android:text=""
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:id="@+id/image_likes"

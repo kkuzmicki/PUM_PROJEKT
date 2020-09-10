@@ -45,6 +45,8 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.TimeZone;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class RankingActivity extends AppCompatActivity
@@ -63,6 +65,7 @@ public class RankingActivity extends AppCompatActivity
     private TextView time;
     private Button buttonDrawMem;
     private Random generator;
+    private CircleImageView profilePhoto;
 
 
     @Override
@@ -77,6 +80,7 @@ public class RankingActivity extends AppCompatActivity
         downloadIMG = (ImageView) findViewById(R.id.downloadIMG);
         title = (TextView) findViewById(R.id.image_caption);
         time = (TextView) findViewById(R.id.image_time_posted);
+        profilePhoto = (CircleImageView) findViewById(R.id.profile_photo);
 
         buttonDrawMem = (Button) findViewById(R.id.drawMem);
         buttonDrawMem.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +119,7 @@ public class RankingActivity extends AppCompatActivity
 
                 UniversalImageLoader.setImage(imgUrls.get(index[0]),downloadIMG,null,"");
                 time.setText(photos.get(index[0]).getDataCreated());
+
 
                 //ładowanie szczegolow
                 String tags = photos.get(index[0]).getTags();

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.ActionMenuView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.MainActivity">
+    tools:context=".Home.MainActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+
+
 
 
         <!-- top toolbar -->
@@ -22,16 +22,21 @@
             <include layout="@layout/layout_top_menu" />
 
         </RelativeLayout>
-
-        <!-- Middle section (body) -->
-        <RelativeLayout
-            android:id="@+id/relLayout2"
+        <android.widget.ActionMenuView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingTop="55dp"
+            >
+            <!-- Middle section (body) -->
+            <RelativeLayout
+                android:id="@+id/relLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <include layout="@layout/layout_mid_section" /> <!-- zmienic na layout_mid_section -->
+                <include layout="@layout/layout_mid_section" /> <!-- zmienic na layout_mid_section -->
 
-        </RelativeLayout>
+            </RelativeLayout>
+     </android.widget.ActionMenuView>
 
         <RelativeLayout
             android:id="@+id/relLayout3"
@@ -45,7 +50,8 @@
 
 
         </RelativeLayout>
-    </RelativeLayout>
 
 
-</android.widget.ActionMenuView>
+
+
+</RelativeLayout>

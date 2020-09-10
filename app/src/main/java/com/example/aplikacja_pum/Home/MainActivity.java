@@ -1,5 +1,6 @@
 package com.example.aplikacja_pum.Home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -7,21 +8,36 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.aplikacja_pum.Login.LoginActivity;
+import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.R;
 import com.example.aplikacja_pum.Utils.BottomNavigationViewHelper;
 import com.example.aplikacja_pum.Utils.UniversalImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.nostra13.universalimageloader.core.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -30,17 +46,77 @@ public class MainActivity extends AppCompatActivity
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private ImageView IMG;
+
+    private ImageView downloadIMG;
+    private TextView title;
+    private TextView time;
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG,"Zaczynamy!");
-        
+
+        downloadIMG = (ImageView) findViewById(R.id.downloadIMG);
+        title = (TextView) findViewById(R.id.image_caption);
+        time = (TextView) findViewById(R.id.image_time_posted);
+        //profilePhoto = (CircleImageView) findViewById(R.id.profile_photo);
+
         initImageLoader();
         setUpBottomNavigationViev();
         setupFirebaseAuth();
+        displayIMG();
+    }
+    public void displayIMG() {
+
+        final ArrayList<Photo> photos = new ArrayList<>();
+        final ArrayList<CardView> cardViews = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Query query = reference
+                .child(getString(R.string.photos));
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
+                    photos.add(singleSnapshot.getValue(Photo.class));
+                }
+
+                ArrayList<String> imgUrls = new ArrayList<String>();
+                for (int i = 0; i < photos.size(); i++) {
+                    //imgUrls.add(photos.get(i).getImagePath());
+                    cardViews.add(new CardView(photos.get(i).getImagePath(), photos.get(i).getDataCreated(), photos.get(i).getTitle()));
+                }
+                recyclerView = findViewById(R.id.recyclerView);
+                recyclerView.setHasFixedSize(true);
+                layoutManager = new LinearLayoutManager(MainActivity.this);
+                adapter = new CardViewAdapter(cardViews, context);
+
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+                /*
+                UniversalImageLoader.setImage(imgUrls.get(0),downloadIMG,null,"");
+                time.setText(photos.get(0).getDataCreated());
+
+                //ładowanie szczegolow
+                String tags = photos.get(0).getTags();
+                title.setText(tags);
+
+                 */
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 
