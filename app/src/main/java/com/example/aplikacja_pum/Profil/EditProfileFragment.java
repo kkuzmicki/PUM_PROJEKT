@@ -251,9 +251,6 @@ public class EditProfileFragment extends Fragment
                     UniversalImageLoader.setImage(userInfo.getUserAccountSettings().getAvatar(), mProfilePhoto, null, "");
                 }
 
-
-
-
             }
 
             @Override

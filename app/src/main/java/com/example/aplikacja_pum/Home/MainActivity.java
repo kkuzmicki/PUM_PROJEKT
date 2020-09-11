@@ -87,19 +87,21 @@ public class MainActivity extends AppCompatActivity
                     photos.add(singleSnapshot.getValue(Photo.class));
                 }
 
-                ArrayList<String> imgUrls = new ArrayList<String>();
-                for (int i = 0; i < photos.size(); i++) {
-                    //imgUrls.add(photos.get(i).getImagePath());
-                    int tmp = photos.size() - 1 - i;
-                    cardViews.add(new CardView(photos.get(tmp).getImagePath(), photos.get(tmp).getDataCreated(), photos.get(tmp).getTitle()));
-                }
-                recyclerView = findViewById(R.id.recyclerView);
-                recyclerView.setHasFixedSize(true);
-                layoutManager = new LinearLayoutManager(MainActivity.this);
-                adapter = new CardViewAdapter(cardViews, context);
+                if(photos.size() > 0) {
+                    ArrayList<String> imgUrls = new ArrayList<String>();
+                    for (int i = 0; i < photos.size(); i++) {
+                        //imgUrls.add(photos.get(i).getImagePath());
+                        int tmp = photos.size() - 1 - i;
+                        cardViews.add(new CardView(photos.get(tmp).getImagePath(), photos.get(tmp).getDataCreated(), photos.get(tmp).getTitle()));
+                    }
+                    recyclerView = findViewById(R.id.recyclerView);
+                    recyclerView.setHasFixedSize(true);
+                    layoutManager = new LinearLayoutManager(MainActivity.this);
+                    adapter = new CardViewAdapter(cardViews, context);
 
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+                }
                 /*
                 UniversalImageLoader.setImage(imgUrls.get(0),downloadIMG,null,"");
                 time.setText(photos.get(0).getDataCreated());
