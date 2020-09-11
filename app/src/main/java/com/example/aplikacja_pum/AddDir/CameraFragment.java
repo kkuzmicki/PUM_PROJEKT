@@ -33,22 +33,19 @@ public class CameraFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_camera, container, false);
         Log.d(TAG, "onCreateView: started.");
 
-        Button btnLaunchCamera = (Button) view.findViewById(R.id.cameraOpen);
-        btnLaunchCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "onClick: launching camera.");
+        Button btnLaunchCamera = view.findViewById(R.id.cameraOpen);
+        btnLaunchCamera.setOnClickListener(v -> {
+            Log.d(TAG, "onClick: launching camera.");
 
-                if(((AddActivity)getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM){
-                    if(((AddActivity)getActivity()).checkPermissions(Permissions.CAMERA_PERMISSION[0])){
-                        Log.d(TAG, "onClick: starting camera");
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-                    }else{
-                        Intent intent = new Intent(getActivity(), AddActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }
+            if(((AddActivity)getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM){
+                if(((AddActivity)getActivity()).checkPermissions(Permissions.CAMERA_PERMISSION[0])){
+                    Log.d(TAG, "onClick: starting camera");
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                }else{
+                    Intent intent = new Intent(getActivity(), AddActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
                 }
             }
         });
