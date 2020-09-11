@@ -53,13 +53,8 @@ public class CameraFragment extends Fragment {
             }
         });
 
-        ImageView imageView = (ImageView) view.findViewById(R.id.ivClose);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+        ImageView imageView = view.findViewById(R.id.ivClose);
+        imageView.setOnClickListener(v -> getActivity().finish());
 
         return view;
     }

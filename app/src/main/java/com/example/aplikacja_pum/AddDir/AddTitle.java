@@ -108,18 +108,15 @@ public class AddTitle extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         myRef = mFirebaseDatabase.getReference();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+        mAuthListener = firebaseAuth -> {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
 
-                if(user != null)
-                {
-                    //zalogowano
-                    Log.d("AddTitle","User: " + user.getUid());
-                }else {
+            if(user != null)
+            {
+                //zalogowano
+                Log.d("AddTitle","User: " + user.getUid());
+            }else {
 
-                }
             }
         };
 
