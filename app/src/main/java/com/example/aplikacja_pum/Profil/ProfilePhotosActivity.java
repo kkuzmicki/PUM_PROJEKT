@@ -1,6 +1,7 @@
 package com.example.aplikacja_pum.Profil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -9,11 +10,13 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.aplikacja_pum.AddDir.AddActivity;
 import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
@@ -80,15 +83,24 @@ public class ProfilePhotosActivity extends AppCompatActivity
                     for (DataSnapshot singleSnapshot : snapshot.getChildren()) {
                         photos.add(singleSnapshot.getValue(Photo.class));
                     }
+                    Log.d("PPA", "singleSnapshot_size: " + photos.size());
 
-                    ArrayList<String> url = new ArrayList<>();
+                    if(photos.size() > 0){
 
-                    for (int i = 0; i < photos.size(); i++) {
-                        url.add(photos.get(i).getImagePath());
+                        ArrayList<String> url = new ArrayList<>();
+
+                        for (int i = 0; i < photos.size(); i++) {
+                            url.add(photos.get(i).getImagePath());
+                        }
+
+                        setupImageGrid(url);
+                        Log.d("test: ", url.get(0));
+                    }else {
+                        Toast.makeText(ProfilePhotosActivity.this, "Aby wyświetlić zdjęcia, najpierw je wrzuć :) \nZostałeś przeniesiony do panelu dodawania !", Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(ProfilePhotosActivity.this, AddActivity.class);
+                        startActivity(intent);
                     }
-
-                    setupImageGrid(url);
-                    Log.d("test: ", url.get(0));
                 }catch (NullPointerException e){
                     Log.d("Error: ", e.getMessage());
                 }
