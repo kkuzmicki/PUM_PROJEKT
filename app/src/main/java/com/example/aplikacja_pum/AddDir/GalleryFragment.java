@@ -180,12 +180,9 @@ public class GalleryFragment extends Fragment {
             Toast.makeText(getActivity(), "This directory is empty...", LENGTH_SHORT).show();
         }
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setImage(imgURLs.get(position), galleryImage, mAppend);
-                mSelectedImage = imgURLs.get(position);
-            }
+        gridView.setOnItemClickListener((parent, view, position, id) -> {
+            setImage(imgURLs.get(position), galleryImage, mAppend);
+            mSelectedImage = imgURLs.get(position);
         });
     }
 

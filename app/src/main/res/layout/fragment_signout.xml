@@ -19,9 +19,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="-1dp"
-            android:text="Chcesz się wylogować ?"
+            android:text="Are you sure?"
             android:textColor="@color/black"
-            android:textSize="30dp"/>
+            android:textSize="30dp" />
 
         <Button
             android:id="@+id/buttonSignOut"
@@ -48,7 +48,7 @@
         android:layout_alignBottom="@+id/progressBar"
         android:layout_centerInParent="true"
         android:layout_marginBottom="-31dp"
-        android:text="Wylogowuję..."
+        android:text="Signing out..."
         android:textSize="60px"
         tools:ignore="DuplicateIds,UnknownId" />
 

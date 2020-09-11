@@ -57,10 +57,10 @@ public class ProfilePhotosActivity extends AppCompatActivity
 
         setUpBottomNavigationViev();
         tempGridSetup();
-        profilePictures = (TextView) findViewById(R.id.profilePictures);
+        profilePictures = findViewById(R.id.profilePictures);
 
 
-        ImageView backArrow = (ImageView) findViewById(R.id.backArrow);
+        ImageView backArrow = findViewById(R.id.backArrow);
         backArrow.setOnClickListener(v -> {
             Log.d(TAG, "onClick: Navigating back to 'ProfileActivity'.");
             finish();
@@ -96,7 +96,7 @@ public class ProfilePhotosActivity extends AppCompatActivity
                         setupImageGrid(url);
                         Log.d("test: ", url.get(0));
                     }else {
-                        Toast.makeText(ProfilePhotosActivity.this, "Aby wyświetlić zdjęcia, najpierw je wrzuć :) \nZostałeś przeniesiony do panelu dodawania !", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProfilePhotosActivity.this, "Firstly, you need to add some photo. " + "\nYou have been moved to adding screen!", Toast.LENGTH_LONG).show();
 
                         Intent intent = new Intent(ProfilePhotosActivity.this, AddActivity.class);
                         startActivity(intent);
@@ -115,7 +115,7 @@ public class ProfilePhotosActivity extends AppCompatActivity
 
     private void setupImageGrid(ArrayList<String> imgURLs) {
 
-        GridView gridView = (GridView) findViewById(R.id.gridView);
+        GridView gridView = findViewById(R.id.gridView);
 
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
         int imageWidth = gridWidth/NUM_GRID_COLUMNS;
@@ -128,7 +128,7 @@ public class ProfilePhotosActivity extends AppCompatActivity
     private void setUpBottomNavigationViev()
     {
         Log.d(TAG,"konfiguracjaNawigiDol");
-        BottomNavigationViewEx bottomNavigationViewEx = (BottomNavigationViewEx)findViewById(R.id.bottomNavViewBar);
+        BottomNavigationViewEx bottomNavigationViewEx = findViewById(R.id.bottomNavViewBar);
         BottomNavigationViewHelper.setupBottomNavigationView(bottomNavigationViewEx);
         BottomNavigationViewHelper.enableNavigation(mContext, bottomNavigationViewEx);
         Menu menu = bottomNavigationViewEx.getMenu();
