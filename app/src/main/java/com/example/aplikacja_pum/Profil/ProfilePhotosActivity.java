@@ -90,11 +90,15 @@ public class ProfilePhotosActivity extends AppCompatActivity
                         ArrayList<String> url = new ArrayList<>();
 
                         for (int i = 0; i < photos.size(); i++) {
-                            url.add(photos.get(i).getImagePath());
+                            //tmp do wyswietlania od tylu IMG
+                            int tmp = photos.size() - 1 - i;
+
+                            url.add(photos.get(tmp).getImagePath());
                         }
 
                         setupImageGrid(url);
                         Log.d("test: ", url.get(0));
+
                     }else {
                         Toast.makeText(ProfilePhotosActivity.this, "Firstly, you need to add some photo. " + "\nYou have been moved to adding screen!", Toast.LENGTH_LONG).show();
 
