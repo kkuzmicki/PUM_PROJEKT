@@ -1,11 +1,14 @@
 package com.example.aplikacja_pum.Utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.aplikacja_pum.AddDir.AddTitle;
+import com.example.aplikacja_pum.Home.MainActivity;
 import com.example.aplikacja_pum.Models.Photo;
 import com.example.aplikacja_pum.Models.User;
 import com.example.aplikacja_pum.Models.UserAccountSettings;
@@ -178,7 +181,6 @@ public class FirebaseMethods
 
                 Toast.makeText(context, "Photo upload success ", LENGTH_SHORT).show();
 
-
                 //dodanie z profilu
                 setProfilePhoto(downloadUrl.toString());
 
@@ -195,8 +197,11 @@ public class FirebaseMethods
                     Toast.makeText(context, "Photo upload progress: "
                             + String.format("%.0f", progress) + "%", LENGTH_SHORT).show();
                     photoUploadProgress = progress;
+
                 }
             });
+
+
         }else if(type.equals(context.getString(R.string.new_photo))){
             //sciazka na Firebase (photos/users/userID/photoCount)
             StorageReference storageReference = mStorageReference.child(filePaths.FIREBASE_IMAGE_STORAGE + "/"
@@ -219,8 +224,6 @@ public class FirebaseMethods
 
                 //dodanie informacji o zdj do bazy
                 addPhotoToDatabase(title, downloadUrl.toString());
-
-                setProfilePhoto(downloadUrl.toString());
 
             }).addOnFailureListener(e -> {
                 //fail
