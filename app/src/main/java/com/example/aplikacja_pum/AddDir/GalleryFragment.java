@@ -80,35 +80,27 @@ public class GalleryFragment extends Fragment {
         mProgressBar.setVisibility(View.GONE);
         list = new ArrayList<>();
 
-        ImageView  imageView = (ImageView) view.findViewById(R.id.ivClose);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().finish();
-            }
-        });
+        ImageView  imageView = view.findViewById(R.id.ivClose);
+        imageView.setOnClickListener(v -> getActivity().finish());
 
-        TextView textView = (TextView) view.findViewById(R.id.tvAdd);
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(imgURLs.size() > 0) {
-                    if(isRootTask()){
-                        Intent intent = new Intent(getActivity(), AddTitle.class);
-                        intent.putExtra(getString(R.string.selected_image), mSelectedImage);
-                        Log.d("zxc", mSelectedImage);
-                        startActivity(intent);
-                    }else {
-                        Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
-                        intent.putExtra(getString(R.string.selected_image), mSelectedImage);
-                        intent.putExtra(getString(R.string.return_to_fragment), getString(R.string.edit_profile));
-                        Log.d("zxc", mSelectedImage);
-                        startActivity(intent);
-                    }
-
-                }else{
-                    Toast.makeText(getActivity(), "There are no photos in this directory to add ...", LENGTH_SHORT).show();
+        TextView textView = view.findViewById(R.id.tvAdd);
+        textView.setOnClickListener(v -> {
+            if(imgURLs.size() > 0) {
+                if(isRootTask()){
+                    Intent intent = new Intent(getActivity(), AddTitle.class);
+                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    Log.d("zxc", mSelectedImage);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(getActivity(), AccountSettingsActivity.class);
+                    intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+                    intent.putExtra(getString(R.string.return_to_fragment), getString(R.string.edit_profile));
+                    Log.d("zxc", mSelectedImage);
+                    startActivity(intent);
                 }
+
+            }else{
+                Toast.makeText(getActivity(), "There are no photos in this directory to add ...", LENGTH_SHORT).show();
             }
         });
 
